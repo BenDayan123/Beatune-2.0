@@ -1,0 +1,90 @@
+@use "../styles/theme" as *;
+
+$themes: (
+    light: (
+        color: #313032,
+        active: #9d82fd
+    ),
+    dark: (
+        color: #fff,
+        active: #9d82fd
+    ),
+);
+// #1db954
+
+.icon--container{
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    // background-color: red;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    z-index: 99959;
+    cursor: pointer;
+    @include themify($themes){
+        .icon{
+            fill: themed("color");
+        }
+        &::after{
+            background: themed("active");
+        }
+        &.active{
+            .icon{
+                fill: themed("active");
+            }
+        }
+    }
+    .hover-menu{
+        opacity: 0;
+        box-shadow: 0 6px 13px 0px #00000076;
+        position: absolute;
+        border-radius: 5px;
+        background: #0a0a0a;
+        color:#fff;
+        padding: 10px 1em;
+        font-size: .7em;
+        top:-10px;    
+        left: 50%;
+        transform: translate(-50%, -100%);
+        z-index: 99999;
+        transition: all $duration;
+    }
+    .icon{
+        opacity: .6;
+        transition: all $duration;
+    }
+    &:hover{
+        // background: rgba(207, 203, 203, 0.2);
+        .hover-menu, .icon{
+            opacity: 1;
+        }
+    }
+    &::after{
+        transition: all $duration;
+        position: absolute;
+        content: '';
+        opacity: 0;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 150%);
+    }
+    &.active{
+        .icon{
+            opacity: 1;
+        }
+        &::after{
+            opacity: 1;
+        }
+    }
+    &.disabled{
+        opacity: .3;
+        cursor: not-allowed;
+        .hover-menu{
+            display: none;
+        }
+    }
+}

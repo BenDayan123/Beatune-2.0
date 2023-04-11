@@ -1,0 +1,109 @@
+@use "../styles/theme" as *;
+@use "../styles/mixin" as *;
+
+$themes: (
+    light: (
+        bg: #000,
+        active-text:#ffff,
+        shadow: #f4f5fe
+    ),
+    dark: (
+        bg: #ffff,
+        active-text: #000,
+        shadow: #101012
+    ),
+);
+
+.filter-nav{
+    position: sticky;
+    top:0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1111;
+    @include themify($themes){
+        background: themed("shadow");
+        .item{
+            transition: color $duration, background $duration;
+            color: themed("bg");
+            background: rgba(themed("bg"), .05);
+            &:hover{
+                background: rgba(themed("bg"), .5);
+            }
+            &.active{
+                background: rgba(themed("bg"), 1);
+                color: themed("active-text");
+            }
+        }
+        .arrow{
+            &.left{
+                background: linear-gradient(to right, themed("shadow") 50%, transparent 80%);
+            }
+            &.right{
+                background: linear-gradient(to left, themed("shadow") 50%, transparent 80%);
+            }
+            .icon{
+                transition: background $duration;
+                background: rgba(themed("bg"), 0);
+                fill: themed("bg");
+                &:active{
+                    border-color: rgba(themed("bg"), .7);
+                }
+                &:hover{
+                    background: rgba(themed("bg"), .3);
+                }
+            }
+        }
+    }
+    .arrow{
+        position: absolute;
+        top:50%;
+        width: 70px;
+        z-index: 3;
+        padding: 0 10px;
+        transform: translateY(-50%);
+        .icon{
+            position: relative;
+            width: 40px;
+            height: 40px;
+            padding: .2em;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0);
+            border: 1px solid transparent;
+        }
+        &.right{
+            right: 0;
+            .icon{
+                left:100%;
+                transform: translate(-100%);
+            }
+        }
+        &.left{
+            left: 0;
+        }
+      
+    }
+    .list{
+        position: relative;
+        padding: 10px;
+        display: flex;
+        list-style: none;
+        overflow: hidden;
+        scroll-behavior: smooth;
+        gap: 10px;
+        .item{
+            @include set_load_animation;
+            @for $i from 2 through 17 {
+                &:nth-child(#{$i}) {
+                  animation-delay: #{$i * 50}ms
+                }
+            }
+            user-select: none;
+            padding: .6em 1em;
+            font-size: .9em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    }
+}

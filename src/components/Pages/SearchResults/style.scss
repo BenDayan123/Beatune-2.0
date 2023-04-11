@@ -1,0 +1,9 @@
+@use "../../styles/mixin" as *;
+
+.search-page{
+    overflow: auto;
+    height: 100%;
+    & > * {
+        @include set_load_animation;
+    }
+}

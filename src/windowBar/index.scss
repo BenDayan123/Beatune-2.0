@@ -1,0 +1,57 @@
+$close: #fb5d55;
+$minimize: #67e057;
+$toggle: #fcbc4a;
+
+.window-bar {
+    height: fit-content;
+    // background: #202225;
+    // transition: background 400ms;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    column-gap: 10px;
+    padding: 7px;
+    z-index: 9999999;
+    cursor: grab;
+    #href{
+        justify-self: flex-start;
+        flex:1;
+        pointer-events: none;
+    }
+    .button{
+        $size: 17px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        aspect-ratio: 1 / 1;
+        width: $size;
+        height: $size;
+        border-radius: 50%;
+        transition: 300ms all;
+        svg{
+            width: $size;
+            height: $size;
+            opacity: 0;
+            transition: opacity 300ms;
+        }
+        &:hover{
+            // background: #31393d;
+            filter: brightness(0.6);
+        }
+        &.minimize{
+            background: $minimize;
+        }
+        &.toggleMaximize{
+            background: $toggle;
+        }
+        &.close{
+            background: $close;
+            &:hover{
+                svg{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

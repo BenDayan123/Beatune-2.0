@@ -1,0 +1,16 @@
+// $color: #2ad653;
+$color: white;
+
+.soundWave-container{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    .wave{
+        transition: background 400ms;
+        position: absolute;
+        bottom: 0;
+        height: 100%;
+        background: $color;
+        width: 3px;
+    }
+}

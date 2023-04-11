@@ -1,0 +1,70 @@
+.artist-page{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    .buttons-container{
+        button{
+            position: relative;
+            color: white;
+            cursor: pointer;
+            appearance: none;
+            padding: 0.8rem 2.4rem;
+            border: none;
+            margin: 5px 10px;
+            border-radius: 30px;
+            transition: all 300ms;
+            svg{
+                width: 1rem;
+                height: 1rem;
+            }
+            &:hover{
+                transform: scale(1.05);
+            }
+            *{
+                vertical-align: middle;
+            }
+            &.play{
+                font-weight: bold;
+                background: #ffff;
+                color: #000;
+                svg{
+                    fill: #000;
+                }
+            }
+            &.follow{
+                background: #54595973;
+            }
+        }
+    }
+    .bottom-data{
+        position: relative;
+        width: 100%;
+    }
+}           
+
+.verified-container{
+    $size: 30px;
+    position: relative;
+    height: fit-content;
+    .background{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-60%);
+        width: calc($size / 2);
+        height: calc($size / 2);
+        background: white;
+        border-radius: 10%;
+        z-index: 9;
+    }
+    .verified-icon{
+        position: relative;
+        width: $size;
+        z-index: 10;
+        height: $size;
+        z-index: 10;
+        fill: #2da2ed;
+    }
+}

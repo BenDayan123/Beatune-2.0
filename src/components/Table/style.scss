@@ -1,0 +1,159 @@
+@use "../styles/theme" as *;
+@use "../styles/mixin" as *;
+
+$themes: (
+    light: (
+      text: #303a58,
+      bg-hover: #10101247,
+      text-hover: #f7f9fc,
+      active-bg: #101012,
+      active-text: #ffffff,
+    ),
+    dark: (
+      text: rgb(179, 179, 179),
+      bg-hover: hsla(0,0%,100%,.1),
+      text-hover: #ffff,
+      active-bg: #fafafa,
+      active-text: #000
+    ),
+);
+
+@mixin RowGrid {
+    padding: 1px 1em;
+    // display: grid;
+    // grid-template-columns: 30px 6fr 4fr 3fr minmax(120px,1fr);
+    user-select: none;
+    .cell *{
+        transition: color $duration;
+    }
+}
+
+.table-container{
+    position: relative;
+    width: 100%;
+    z-index: 10;
+    display: table;
+    padding: 40px 30px;
+    @include set_load_animation();
+
+    @include themify($themes){
+        #top-header{
+            .cell{
+                transition: color $duration;
+                color: themed("text");
+                svg{
+                    transition: fill $duration;
+                    fill: themed("text")
+                }
+             }
+        }
+        .row{
+            transition: background $duration;
+            &.active{
+                background: themed("active-bg");
+                .cell, .cell *{
+                    color: themed("active-text")
+                }
+            }
+            &:not(.active):hover{
+                background: themed("bg-hover");
+                .cell, .cell *{
+                    color: themed("text-hover")
+                }
+            }
+            .wave{
+                background: themed("active-text");
+            }
+            .cell, .cell *{
+                transition: color $duration;
+                color: themed("text")
+            }
+        }
+    }
+
+    #top-header{
+        @include RowGrid(); 
+        // position: sticky;
+        // top:65px;
+        // background: #101012;
+        // width: 100%;
+        display: table-header-group;
+        white-space: nowrap;
+        .cell{
+            display: table-cell;
+            border-bottom: 1px solid hsla(0,0%,100%,.1);
+            padding: 5px;
+            &.index{
+                text-align: center;
+            }
+        }
+
+    }
+    .row{
+        $radius: 5px;
+        cursor: pointer;
+        @include RowGrid();
+        display: table-row;
+        transition: background 200ms;
+        &:hover{
+            background: #2b2b2b;
+            .cell{
+                .index{
+                    .number{
+                        display: none;
+                    }
+                }
+            }
+        }
+        &.drag{
+            opacity: .3;
+            border: 3px dashed rgb(255, 255, 255);
+        }
+        .cell{
+            display: table-cell;
+            padding: 5px;
+            font-size: .9em;
+            font-weight: 500;
+            vertical-align: middle;
+            &:first-child{
+                border-radius: $radius 0 0 $radius;
+            }
+            &:last-child{
+                border-radius: 0 $radius $radius 0;
+                padding: 0 1em;
+            }
+            &.index{
+                text-align: center;
+                *:first-child{
+                    margin: 0 auto;
+                }
+                max-width: 3em;
+                width: 3em;
+            }
+            *:not(img){
+                text-overflow: ellipsis;
+                overflow: hidden; 
+                white-space: nowrap;
+            }
+            .contianer-in-line{
+                display: flex;
+                column-gap: 1em;
+                justify-content: left;
+                align-items: center;
+            }
+            img{
+                height: 45px;
+                max-width: 100%;
+                border-radius: 3px;
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+                object-position: center center;
+            }
+        }
+        // &.active{
+        //     .cell, .cell * {
+        //         font-weight: bold;
+        //     }
+        // }
+    }
+}

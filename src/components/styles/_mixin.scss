@@ -1,0 +1,22 @@
+@mixin set_load_animation($time: 500ms){
+    @keyframes load{
+        from{
+            opacity: 0;
+            transform: translateY(60px);
+        }
+        to{
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    animation: load $time both;
+}
+
+@mixin hover_text_decoration{
+    &{
+        text-decoration: none !important;
+        &:hover{
+          text-decoration: underline !important;
+        }
+    }
+}

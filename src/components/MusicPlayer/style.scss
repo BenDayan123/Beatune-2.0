@@ -1,0 +1,148 @@
+@use "../styles/theme" as *;
+@use "../styles/mixin" as *;
+
+$control_bg: #613bff;
+
+$themes: (
+    light: (
+      bg: #fefefe,
+      icon: #313032,
+      text: #3b4060,
+      active_icon: #613bff
+    ),
+    dark: (
+      bg: #1d1d1d,
+      icon: white,
+      text: #fff,
+      active_icon: #613bff
+    ),
+);
+
+
+@mixin svgSize($size) {
+    width: $size;
+    height: $size;
+}
+
+
+@mixin rangeBarAttr($attr){
+    content: attr($attr);
+    color:#757575;
+    font-size: 1.1em;
+    top: 50%;
+    position: absolute;
+}
+
+.music-player{
+    @include themify($themes){
+        transition: background $duration;
+        background: themed("bg");
+        svg{
+            transition: fill $duration;
+            fill: themed("icon");
+        }
+        // border-top: 2px solid darken(themed("bg"), 5%);
+    }
+    position: relative;
+    z-index: 99999;
+    padding: 1em 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    & > *{
+        flex: 0 1 calc(100%/3);
+    }
+    .song-info{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1em; 
+        .song-image{
+            border-radius: 4px;
+            height: 100%;
+            max-width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+        .song-data{
+            align-items: center;
+            .song-name{
+                display: block;
+                font-size: 1em;
+                font-weight: bolder;
+                @include themify($themes){
+                    transition: color $duration;
+                    color: themed("text");
+                }
+            }
+            .artist-name{
+                $colors: (
+                    light: (
+                        text: #959199,
+                      ),
+                      dark: (
+                        text: rgba(255, 255, 255, 0.6)
+                      ),
+                );
+                @include hover_text_decoration;
+                font-size: 0.8em;
+                @include themify($colors){
+                    transition: color $duration;
+                    color: themed("text");
+                }
+            }
+        }
+    }
+    .middle-controll{
+        .controls{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 4px;
+            .play .icon{
+                opacity: 1;
+                width: 2em;
+                height: 2em;
+            }
+            .icon{
+                opacity: .6;
+            }
+        }
+        .range-bar{
+            font-size: 0.6em;
+            width: 100%;
+            &::after{
+                transform: translateX(100%);
+                top: 50%;
+                right:-5px;
+                @include rangeBarAttr(data-right)
+            }
+            &::before{
+                left:-5px;
+                transform: translateX(-100%);
+                @include rangeBarAttr(data-left)
+            }
+        }
+    }
+    .right-control{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: .5em;
+        .volume-slider{
+            display: flex;
+            column-gap: 10px;
+            .icon{
+                transition: all 300ms;
+                &:active{
+                    transform: scale(0.9);
+                }
+            }
+        }
+    }
+}
+
+@keyframes rotate {
+    from{ transform: rotate(0);}
+    to{ transform: rotate(360deg);}
+}

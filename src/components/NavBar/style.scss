@@ -1,0 +1,75 @@
+@use "../styles/theme" as *;
+
+$colors: (
+    light: (
+        bg: white,
+        shadow-line: black,
+        text: black
+    ),
+    dark: (
+        bg: #302e2f,
+        shadow-line: white,
+        text: white,
+    ),
+);
+
+.navbar-container{
+    // overflow: hidden;
+    width: 100%;
+    @include themify($colors){
+        transition: background $duration;
+        background: themed("bg");
+        .links{
+            .line{
+                transition: background $duration, box-shadow $duration;
+                background: themed("shadow-line");
+                box-shadow: 0px -8px 13px 0px themed("shadow-line");
+            }
+            .link{
+                &.active{
+                    transition: color $duration;
+                    color: themed("text");
+                    opacity: 1;
+                    // font-weight: bold;
+
+                }
+                &:not(.active):hover{
+                    transition: color $duration;
+                    color: themed("text");
+                }
+            }
+        }
+    }
+
+    .links{
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        .link{
+            // color: #7f7d7d;
+            opacity: .4;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: .8em;
+            text-decoration: none;
+            overflow: hidden;
+            white-space: nowrap; 
+            text-overflow: ellipsis; 
+            transition: 300ms;
+        }
+        .line{
+            $height: 6px;
+            position: absolute;
+            width: 40px;
+            height: $height;
+            pointer-events: none;
+            bottom: 0;
+            // bottom: calc(-1 * $height / 2);
+            transform: translate(-50%, 100%);
+            background: #fff;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0px -8px 13px 0px white;
+        }
+    }
+}

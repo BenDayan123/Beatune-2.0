@@ -1,0 +1,98 @@
+@use "../styles/theme" as *;
+
+$themes: (
+    light: (
+      bg: #fafafa,
+      icon: #202020
+    ),
+    dark: (
+      bg: #202020,
+      icon: #ffff
+    ),
+);
+
+
+.bar-container{
+    // padding: 0.5rem;
+    padding-bottom: 0;
+    .top-bar{
+        @include themify($themes){
+            transition: background $duration;
+            background: themed("bg");
+            .icon{
+                transition: fill $duration;
+                fill: themed("icon");
+            }
+        }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        gap:10px;
+        // height: 4rem;
+        padding: 0.5em 1em;
+        box-shadow: 0 3px 10px 0 rgb(211 194 194 / 25%);
+        @include onDarkMode{
+            box-shadow:none;
+        }
+        .left-side{
+            display: flex;
+            align-items: center;
+            column-gap: 1em;
+            flex:1;
+        }
+        .right-side{
+            display: flex;
+            align-items: center;
+            gap: 0 15px;
+            .download-btn{
+                padding: .7em 1.5em;
+                cursor: pointer;
+                border-radius: 10px;
+                border:none;
+                // background: #406ae7;
+                background: linear-gradient(to left bottom, #2d61e9, #3779f1, #4c8ff6, #66a4f9, #83b9fa);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                color:white;
+                transition: all 300ms ;
+                &:hover{
+                    scale: 1.1;
+                    filter: brightness(1.3);
+                }
+            }
+            .icon-button{
+                cursor: pointer;
+            }
+            .profile-container{
+                $size: 3rem;
+                position: relative;
+                flex-shrink: 0;
+                // border: 2px solid #5554547d;
+                height: $size;
+                width: $size;
+                cursor: pointer;
+                transition: all 200ms;
+                border-radius: 50%;
+                padding: 3px;
+                .inner{
+                    width: 100%;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    background-size: cover;
+                    height: 100%;
+                    border-radius: inherit;
+                }
+                &:hover{
+                    box-shadow: 0 3px 12px 0 #524c4c7a;
+                    filter: brightness(0.85)
+                }
+            }
+        }
+    }
+}
+
+

@@ -1,0 +1,70 @@
+@use "../styles/theme" as *;
+
+$overlay_background: rgba(0, 0, 0, 0.8);
+$zIndex: 99969;
+$width: 500px;
+$height: 350px;
+// $borderRadius: 2em;
+// $width: clamp(30%,500px,90%);
+// $height: min(50%,350px);
+
+
+$themes: (
+    light: (
+      bg: #ffff,
+      text: black
+    ),
+    dark: (
+      bg: #1d1d1d,
+      text: #fff
+    ),
+);
+
+.backdrop-overlay{
+    background: $overlay_background;
+    cursor: pointer;
+    bottom:0;
+    left: 0;
+    z-index: $zIndex;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 300ms;
+    .content{
+        cursor: auto;
+        transform-origin: 50% 50%;
+        height: $height;
+        width: $width;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        z-index: $zIndex - 1;
+        // border-radius: $borderRadius;
+        @include themify($themes){
+            transition: background $duration;
+            background: themed("bg");
+            & > * {
+                transition: color $duration;
+                color: themed("text");
+            }
+        }
+        opacity: 1;
+    }
+    .rotated{
+        position: absolute;
+        // border-radius: $borderRadius;
+        z-index: $zIndex - 2;
+        height: $height;
+        width: $width;
+        background: linear-gradient(to left bottom, #2d61e9, #3779f1, #4c8ff6, #66a4f9, #83b9fa);
+    }
+}
+
+// .container{
+// position: relative;
+// cursor: auto;
+// overflow: auto;
+// background: red;
+// height: 100%;
+// width: 100%;

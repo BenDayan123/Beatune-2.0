@@ -1,0 +1,86 @@
+@use "../styles/mixin" as *;
+
+@mixin middle-baseline {
+    & > *{
+        vertical-align: middle;
+        display: inline-block;
+        margin-right: 5px;
+    }
+}
+
+
+.banner{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    padding: 2em;
+    padding-top: 5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
+    // white-space: nowrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem 10px;
+    & > *{
+        @include set_load_animation();
+    }
+    .profile{
+        border-radius: 50%;
+        height: 200px;
+        max-width: auto;
+        box-shadow: 0 4px 60px rgba(0,0,0,.5);
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+    }
+    .page-type{
+        @include middle-baseline();
+        text-shadow: 0 1px 2px #50464675;
+    }
+    .title{
+        position: relative;
+        padding: 0.08em 0px;
+        width: 100%;
+        font-size: 3.5em;
+        text-shadow: 0 1px 2px #50464675;
+
+    }
+    .description{
+        @include middle-baseline();
+        text-shadow: 0 1px 2px #50464675;
+    }
+    .left-side{
+        display: flex;
+        align-items: flex-end;
+        gap: 0 2em;
+    }
+}
+
+.sticky-banner{
+    position: fixed;
+    @include middle-baseline;
+    height: 65px;
+    backdrop-filter: blur(10px);
+    padding: 0px 32px;
+    width: 100%;
+    z-index: 9997;
+    display: flex;
+    align-items: center;
+    .name{
+        @include middle-baseline;
+        text-shadow: 0 1px 2px #50464675;
+    }
+    .play-icon{
+        width: 3rem;
+        height: 3rem;
+        fill: #ffff;
+    }
+}
+
+.top-shadow{
+    pointer-events: none;
+    height: 200px;
+    position: absolute;
+    width: 100%;
+    z-index:0;
+}

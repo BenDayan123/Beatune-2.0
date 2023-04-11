@@ -1,0 +1,106 @@
+@use "../../styles/theme" as *;
+
+
+$themes: (
+    light: (
+        active: #50a0fe,
+        text: #000000,
+        inner: #ffffff
+    ),
+    dark: (
+        active: #0e69e3,
+        text: #ffffff,
+        inner: #000000
+    ),
+);
+$size: 15px;
+
+.radios-container{
+    @include themify((light: (color: #000000),dark: (color: #ffffff))){
+        #title{
+            color: themed("color");
+        }
+    }
+}
+.input-radio{
+    margin-top: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .7em;
+    overflow: hidden;
+    width: 100%;
+    padding: .8em 1em;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    transition: all 300ms;
+
+    @include themify($themes){
+        &:has(:checked){
+            background: #{themed("active") + '4d'};
+            .checkmark{
+                border-width: 4px;
+                border-color: themed("active");
+                background: themed("inner");
+            }
+            .value{
+                opacity: 1;
+            }
+        }
+        &:has(:not(:checked)){
+            &:hover{
+                background: #{themed("active") + '15'};
+                .checkmark::before{
+                    background: #{themed("active") + '4d'};
+                }
+            }
+        }
+        .checkmark{
+            border: 2px solid themed("active");
+        }
+        .value{
+            color: themed("text");
+            opacity: .7;
+        }
+        .description{
+            color: themed("text");
+            opacity: .8;
+        }
+    }
+    &:has(:not(:checked)){
+        &:active{
+            scale: .9;
+        }
+        &:hover{
+            .checkmark{
+                border-width: calc($size / 5);
+                outline-color: #1045995d;
+            }
+        }
+    }
+    .checkmark{
+        position: relative;
+        border-radius: 50%;
+        outline: 4px solid transparent;
+        height: $size;
+        width: $size;
+        aspect-ratio: 1;
+        transition: all 300ms;
+        z-index: 2;
+    }
+    input{
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        appearance: none;
+        opacity: 0;
+        z-index: 4;
+    }
+    .value{
+        user-select: none;
+        font-weight: 500;
+    }
+}

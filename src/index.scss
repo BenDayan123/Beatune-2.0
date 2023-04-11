@@ -1,0 +1,103 @@
+// @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  font-family: 'Sora', sans-serif;
+  color: white;
+  scrollbar-color: #4b4e54 #2e333847;
+  scrollbar-width: thin;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  #root{
+    width: 100vw;
+    height: 100vh;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: white;
+  }
+  .App{
+    position: relative;
+    overflow: hidden;
+    // background: #36393f;
+    overflow-y: auto;
+    height: 100%;
+  }
+}
+
+img{
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2e333820;
+}
+
+::-webkit-scrollbar-thumb {
+  $color: #4c4e53;
+  background: $color;
+  // border-radius: 15px;
+  &:hover{
+    background: darken($color, 15%);
+  }
+} 
+
+*::-moz-selection{
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+}
+*::selection{
+  // background: #6840fa44;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+#notifications-container{
+  position: fixed;
+  z-index: 999999;
+  display: flex;
+  row-gap: 10px;
+  padding: 1rem;
+  justify-content: flex-start;
+  flex-direction: column-reverse;
+  top: 0;
+  left:0;
+  overflow: auto;
+  overflow-x: hidden;
+  pointer-events: none;
+  height: 100vh;
+}
+
+
+.inline-icon-text{
+  & > *{
+    display: inline;
+    vertical-align: middle;
+    margin-right: 5px;
+    white-space: no-wrap;
+  }
+}
+
+.undragable{
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-select: none;
+}

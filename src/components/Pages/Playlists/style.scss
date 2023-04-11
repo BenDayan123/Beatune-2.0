@@ -1,0 +1,96 @@
+@use "../../styles/theme" as *;
+
+$themes: (
+    light: (
+      bg: #f7f7f7,
+      text: black
+    ),
+    dark: (
+      bg: #1d1d1d,
+      text: #fff
+    ),
+);
+
+
+.form-container{
+    height: 100%;
+    padding: 2em;
+    @include themify($themes){
+        h1{
+            transition: color $duration;
+            color: themed("text");
+        }
+        .submit-button{
+            color: themed("bg");
+            background: themed("text");
+        }
+    }
+    h1{
+        font-size: 1.5em;
+    }
+    .playlist-form{
+        margin: 2em 0;
+        display: grid;
+        grid-template: 
+        "image i1"
+        "image i2"
+        "none  btn";
+        grid-template-rows: min-content min-content;
+        grid-template-columns: minmax(0, 150px) auto;
+        grid-gap: 15px;
+        align-items: center;
+        .image-input-container{
+            border-radius: 5px;
+            grid-area: image;
+        }
+        .input-container{
+            $themes: (
+                light: (
+                    bg: #eaedee,
+                    text: #555555
+                ),
+                dark: (
+                    bg: #3e3e3e,
+                    text: #fff
+                ),
+            );
+            @include themify($themes){
+                background: themed("bg");
+                &:focus-within{
+                    background: lighten(themed("bg"), 5%);
+                }
+                input{
+                    transition: color $duration;
+                    color: themed("text");
+                }
+            }
+            margin: 0;
+            @for $i from 1 through 2{
+                &:nth-child(#{$i}){
+                    grid-area: 'i'+#{$i};
+                }
+            }
+        }
+        .submit-button{
+            width: 50%;
+            justify-self: end;
+            grid-area: btn;
+            padding: 1em 1.5em;
+            border-radius: 15px;
+            outline: none;
+            border:none;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 400ms;
+            &:hover{
+                scale: 1.1;
+                border-radius: 5px;
+            }
+            &:active{
+                scale: .8;
+            }
+        }
+    }
+}
+// f8f8f8

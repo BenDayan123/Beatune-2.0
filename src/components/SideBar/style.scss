@@ -1,0 +1,252 @@
+@use "../styles/theme" as *;
+
+$themes: (
+    light: (
+      bg: #fafafa,
+      title: black,
+      text: #3b4060
+    ),
+    dark: (
+      bg: #151517,
+      title: white,
+      text: #fff
+    ),
+);
+
+.side-bar{
+    @include themify($themes){
+        transition: background $duration;
+        background: themed("bg");
+    }
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow: hidden;
+    .logo-bar{
+        padding: 15px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .exitButton{
+            &:hover{
+                filter: brightness(0.8);
+                background: rgba(205, 205, 205, 0.3);
+            }
+            svg .line{
+                @include themify($themes){
+                    stroke: themed("text");
+                }
+            }
+        }
+        .logo-container{
+            user-select: none;
+            padding: 10px;
+            padding-bottom: 0;
+            display: flex;
+            column-gap: 5px;
+            align-items: center;
+            .logo{
+                max-height: 100%;
+                max-width: 35px;
+            }
+            .logo-name{
+                font-size: 1.3rem;
+                // background-image: linear-gradient(to right top, #9d51fb, #7b72ff, #5e89ff, #509cff, #59abfb);
+                // background: radial-gradient(at 32% 73%, rgb(224, 242, 254) 0, transparent 0%), radial-gradient(at 99% 58%, rgb(244, 63, 94) 0, transparent 68%), radial-gradient(at 0% 49%, rgb(217, 119, 6) 0, transparent 0%), radial-gradient(at 2% 20%, rgb(99, 102, 241) 0, transparent 64%), radial-gradient(at 14% 60%, rgb(191, 219, 254) 0, transparent 40%), radial-gradient(at 37% 29%, rgb(6, 182, 212) 0, transparent 68%);
+                @include themify($themes){
+                    transition: color $duration;
+                    color: themed("title");
+                }
+            }
+        }
+    }
+    .nav-list{
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        height:100%;
+        padding: 5px;
+        max-height: 100%;
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+        .nav-group{
+            display: block;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border-radius: 5px;
+            .title-container{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .groupTitle{
+                    user-select: none;
+                    color:#c2c1c6;
+                    margin-bottom: 5px;
+                    font-size: 0.8em;
+                }
+                .expand-icon{
+                    cursor: pointer;
+                    fill: #c2c1c6;
+                    // transition: all 200ms ease;
+                    &:hover{
+                        filter: brightness(1.2);
+                        scale: 1.5;
+                    }
+                }
+            }
+            .items-container{
+                overflow: hidden;
+            }
+            .nav-item{
+                $bg: #613bff;
+                position: relative;
+                cursor: pointer;
+                outline: none;
+                padding: 2px 15px;
+                display: flex;
+                align-items: center;
+                user-select: none;
+                margin-bottom: 5px;
+                transition: all 300ms;
+                border: 2px solid transparent;
+                border-radius: 10px;
+                white-space: nowrap;
+                text-decoration: none;
+                &:focus{
+                    background: #{$bg}#{'15'};
+                    border-color: $bg;
+                    box-shadow: 0 6px 12px 0 #9181811f;
+                    @include onDarkMode{
+                        box-shadow: none;
+                    }
+                }
+                .title{
+                    padding: 0.7em;
+                    font-weight: normal;
+                    font-size: 0.8em;
+                    color:#c2c1c6;
+                    @include themify($themes){
+                        transition: color $duration;
+                        color: themed("text");
+                    }
+                }
+                .icon{
+                    path{
+                        @include themify($themes){
+                            transition: color 200ms;
+                            color: themed("text");
+                        }
+                    }
+                }
+                &:not(.active):hover{
+                    $hover_colors: (
+                        light:(
+                            text: $bg,
+                            background: #efebfd
+                        ),
+                        dark:(
+                            text:#a6a3b7,
+                            background: #2a2247
+                        )
+                    );
+                    @include themify($hover_colors){
+                        transition: background $duration;
+                        background: themed("background");
+                        .title, .icon path{
+                            transition: color $duration;
+                            color: themed("text");
+                        }
+                    }
+                }
+                &.active{
+                   background: $bg;
+                   .title{
+                        color:#fefefa;
+                   }
+                   .icon path{
+                        color:#fefefa;
+                   }
+                }
+            }
+        }
+    }
+    .logout-container{
+        $colors: (
+            light: (
+                bg:#f1f3f4
+            ),
+            dark:(
+                bg:#222426
+            )
+        );
+        width: 100%;
+        display: flex;
+        align-items: center;
+        column-gap: 15px;
+        z-index: 4;
+        padding: 1em 2em;
+        cursor: pointer;
+        &:hover{
+            filter: brightness(0.9);
+        }
+        @include themify($colors){
+            transition: background $duration;
+            background: themed("bg");
+        }
+        .icon path{
+            @include themify($themes){
+                transition: color $duration;
+                color: themed("text");
+            }
+        }
+        #title{
+            user-select: none;
+            text-transform: capitalize;
+            white-space: nowrap;
+            @include themify($themes){
+                transition: color $duration;
+                color: themed("text");
+            }
+        }
+    }
+    &.close{
+        .download-card{
+            margin:0;
+            border-radius: 0;
+            justify-content: center;
+            .text-container{
+                display: none;
+            }
+        }
+        .expand-icon{
+            margin: 0 auto;
+        }
+        .exitButton{
+            margin: 0 auto;
+        }
+        .logo-container{
+            display: none;
+        }
+        .logout-container{
+            #title{
+                display: none;
+            }
+        }
+        .nav-group{
+            .groupTitle{
+                display: none;
+            }
+            .nav-item{
+                .title{
+                    display: none;
+                }
+            }
+        }
+    }
+    
+}

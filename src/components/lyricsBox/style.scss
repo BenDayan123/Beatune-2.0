@@ -1,0 +1,120 @@
+@use "../styles/mixin" as *;
+
+$gradient: radial-gradient(at 74% 49%, hsla(23,88%,71%,1) 0px, transparent 50%),
+    radial-gradient(at 93% 30%, hsla(287,65%,68%,1) 0px, transparent 50%),
+    radial-gradient(at 36% 34%, hsla(331,90%,60%,1) 0px, transparent 50%),
+    radial-gradient(at 21% 64%, hsla(246,89%,68%,1) 0px, transparent 50%),
+    radial-gradient(at 4% 24%, hsla(14,69%,72%,1) 0px, transparent 50%),
+    radial-gradient(at 28% 48%, hsla(232,99%,77%,1) 0px, transparent 50%),
+    radial-gradient(at 87% 80%, hsla(340,72%,63%,1) 0px, transparent 50%);
+
+ 
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 90% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.lyrics-container{
+    position: absolute;
+    display: flex;
+    gap: 1rem 2rem;
+    z-index: 99969;
+    width: 100%;
+    justify-content: center;
+    height: 100%;
+    background: #1d1d1d;
+    // @include set_load_animation;
+    flex-wrap: wrap;
+    // background-size: 400% 400%;
+    opacity: 1;
+    .image-container{
+        position: relative;
+        overflow: hidden;
+        border-radius: 5px;
+        max-height: 40%;
+        max-width: 100%;
+        margin: 1.5em;
+        // @include set_load_animation;
+        box-shadow: 0 6px 40px 0 #0000004d;
+        aspect-ratio: 1;
+        &::after{
+            content: '';
+            transition: opacity 300ms;
+            position: absolute;
+            opacity: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(180deg, transparent, #00000079);
+        }
+        &:hover{
+            &::after{
+                opacity: 1;
+            }
+            #title{
+                bottom: .5em;
+                opacity: 1;
+            }
+        }
+        img{ 
+            height: 100%;
+            object-fit: contain;
+            max-width: 100%;
+        }
+        #title{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            opacity: 0;
+            z-index: 2;
+            transition: all 300ms;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 150%;
+            text-shadow: #2422226b 0 0 20px;
+            padding: .7em;
+            text-align: center;
+            font-weight: bold
+        }
+    }
+    .lyrics{
+        padding: 1.5em 0;
+        overflow: auto;
+        overflow-x: hidden;
+        max-height: 100%;
+        min-width: 40%;
+        flex:1;
+        .end{
+            margin-bottom: 1.5rem;
+        }
+        .line{
+            width: fit-content;
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+            opacity: .6;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: all 200ms ease-out;
+            &:hover{
+                opacity: 1;
+                text-shadow: rgba(68, 63, 63, 0.525) 0px 0px 12px;
+            }
+            &.verse-title{
+                pointer-events: none;
+                user-select: none;
+                font-size: 1.5em;
+                opacity: 1;
+                margin-top: 1.5em;
+            }
+        }
+    }
+}

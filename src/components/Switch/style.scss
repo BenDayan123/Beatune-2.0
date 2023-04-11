@@ -1,0 +1,32 @@
+@use "sass:math";
+
+$width: 50px;
+$padding: 5px;
+
+.switch {
+    position: relative;
+    min-width: $width;
+    height: math.div($width, 1.7);
+    border-radius: $width;
+    padding: $padding;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 400ms;
+    &.on{
+        background-color: #4c74f1;
+        justify-content: flex-end;
+    }
+    &.off{
+        background-color: #c6c6c6;
+        justify-content: flex-start;
+    }
+    .thumb{
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        // max-width: math.div($width, 2) - ($padding * 2);
+        background-color: #ffffff;
+        border-radius: 50%;
+        box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.02);
+    }
+}

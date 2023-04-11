@@ -1,0 +1,54 @@
+@use "../../styles/theme" as *;
+
+$themes: (
+    light: (
+      bg: rgba(255, 4, 0, 0.2),
+      text: #830200
+    ),
+    dark: (
+      bg: rgba(255, 4, 0, 0.2),
+      text: #fff
+    ),
+);
+
+
+$bg: rgba(255, 4, 0, 0.2);
+$icon: #830200;
+
+.message-container{
+    display: flex;
+    margin: 10px 0;
+    padding: 10px 16px;
+    column-gap: 10px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    user-select: none;
+    @include themify($themes){
+        transition: background $duration;
+        background: themed("bg");
+        .icon{
+            transition: fill $duration;
+            fill: themed("text");
+        }
+        .message{
+            transition: color $duration;
+            color: themed("text");
+        }
+    }
+    &:hover{
+        background: lighten($bg, 15%);
+    }
+    .icon{
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+    .message{
+        font-size: 0.8rem;
+        // color: rgb(103, 18, 16);
+    }
+}

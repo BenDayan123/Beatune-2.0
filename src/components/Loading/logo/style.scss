@@ -1,0 +1,101 @@
+$size: 15vw;
+$delay-list: 1s, 1.5s, 0s, .5s;
+$color1: #a144fe;
+$color2: #43b5fe;
+
+.logo-loading{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    .logo{
+        position: relative;
+        width: $size;
+        height: $size;
+        aspect-ratio: 1;
+        z-index: 5;
+        border-radius: 50%;
+        background: linear-gradient(to top,$color1, $color2);
+        overflow: hidden;
+        rotate: 45deg;
+        animation: heart-beat 2s ease-in-out infinite alternate;
+        // background: black;
+        .lines{
+            $pos: calc(-50% - calc($size / 25));
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate($pos, $pos);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: calc($size / 25);
+            .line{
+                position: relative;
+                height: calc($size / 2.3);
+                width: calc($size / 12);
+                background: white;
+                border-radius: 100px;
+                transform-origin: center center;
+                animation: lines-scale 2s ease-in-out infinite alternate;
+                &:nth-child(even){
+                    translate: 0 calc($size / 10);
+                }
+                @for $i from 1 through 4 {
+                    &:nth-child(#{$i}) {
+                        animation-delay: nth($delay-list, $i);
+                    }
+                }
+            }
+        }
+    }
+    #blob{
+        height: 10vmax;
+        position: absolute;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: linear-gradient(
+          to right,
+          $color2, $color1
+        );
+        animation: rotate 15s infinite alternate;
+        left: 50%;
+        top: 50%;
+        translate: -50% -50%;
+    }
+      
+    #blur{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+        backdrop-filter: blur(50px);
+    }
+}
+  
+@keyframes rotate {
+    0%{
+      rotate: 0;
+    }
+    100%{
+      rotate: 360deg;
+    } 
+}
+@keyframes lines-scale {
+    from{
+        transform: scaleY(.8);
+    }
+    to{
+        transform: scaleY(1);
+    }
+}
+
+@keyframes heart-beat{
+    from{
+        scale: 0.7;
+    }
+    to{
+        scale: 1;
+    }
+}

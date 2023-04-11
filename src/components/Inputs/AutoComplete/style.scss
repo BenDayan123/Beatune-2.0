@@ -1,0 +1,130 @@
+@use "../../styles/theme" as *;
+
+$active: #008cff;
+
+$themes: (
+    light: (
+      bg: #f1f3f4,
+      text: #525459
+    ),
+    dark: (
+      bg: #323232,
+      text:#fefefe
+    ),
+);
+$borderRadius: 10px;
+
+.auto-input-container{
+    height: fit-content;
+    position: relative;
+    flex: .4;
+    // margin: 5px 15px;
+
+    .input-wrap{ 
+        @include themify($themes){
+            transition: background $duration;
+            background: themed("bg");
+            &:hover{
+                background: darken(themed("bg"), 5%);
+                @include onDarkMode(){
+                    background: lighten(themed("bg"), 5%);
+                }
+            }
+
+        }
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        padding: 0.5em;
+        border-radius: $borderRadius;
+        // white-space: nowrap;
+        transition: all 300ms;
+        border-bottom: 3px solid transparent;
+        &:focus-within{
+            border-color: $active;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            @include onDarkMode{
+                box-shadow: none;
+            }
+            .search-icon{
+                fill: $active;
+            }
+        }
+        input{
+            background: transparent;
+            outline: none;
+            border:none;
+            @include themify($themes){
+                transition: color $duration;
+                color: themed("text");
+            }
+            font-weight: 400;
+            width: 100%;
+            font-size: 1em;
+            &::placeholder{
+                font-weight: normal;
+                font-size: 0.9em;
+                color:#aeb1b7; 
+            }
+        }
+        .search-icon{
+            transition: fill 200ms;
+            fill: #525459;
+        }
+    }
+    .autoCompeleteList{
+        $themes: (
+            light: (
+                bg: rgba(255, 255, 255, 0.5),
+                text: #1e1d1d
+            ),
+            dark: (
+                bg: rgba(0, 0, 0, 0.5),
+                text:#fafafa
+            ),
+        );
+        @include themify($themes){
+            transition: background $duration;
+            background: themed("bg");
+            .option{
+                transition: color $duration;
+                color: themed("text");
+                &:focus{
+                    border-color: themed("text");
+                }
+            }
+        }
+        position: absolute;
+        display: block;
+        bottom:-1px;
+        left:0;
+        z-index: 99999;
+        width: 100%;
+        transform: translateY(100%);
+        backdrop-filter: blur(20px);
+        max-height: 100% * 5;
+        border-radius: 0 0 $borderRadius $borderRadius;
+        overflow: auto;
+        // border: 1px solid #dcdbe0;
+        .list{
+            height: 100%;
+            .option{
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-size: .9em;
+                border: 2px solid transparent;
+                cursor: pointer;
+                list-style: none;
+                padding: 0.7em;
+                outline: none;
+                border: none;
+                transition: 200ms;
+                &:hover{
+                    background: #9393936e;
+                }
+            }
+        }
+    }
+}

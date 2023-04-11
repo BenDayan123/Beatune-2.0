@@ -1,0 +1,38 @@
+@use "../../styles/theme" as *;
+
+$themes: (
+    light: (
+       color:#101012
+    ),
+    dark: (
+        color: #ffff
+    ),
+);
+
+.error-page{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: none;
+    user-select: none;
+    padding: 1em;
+    gap: 1em;
+    @include themify($themes){
+        .icon{
+            fill: themed("color");
+        }
+        #title, .text{
+            color: themed("color");
+        }
+    }
+    .icon{
+        $size: 10em;
+        width: $size;
+        height: $size;
+    }
+    #title{
+        font-size: 2em;
+    }
+}

@@ -1,0 +1,84 @@
+$sizes: 50%,100%,75%;
+$size: 2.5rem;
+
+.exitButton{
+  cursor: pointer;
+  position: relative;
+  border-radius: 50%;
+  padding: 10px;
+  aspect-ratio: 1 / 1;
+  width: $size;
+  height: $size;
+  svg{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.exitButton {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  z-index: 999;
+  cursor: pointer;
+  padding: 10px;
+  width: $size;
+  height: $size;
+  transition: 300ms;
+  border-radius: 50%;
+    .line2 {
+      stroke-dasharray: 40 200;
+      stroke-dashoffset: 0px;
+    }
+    .line3 {
+      stroke-dasharray: 40 179;
+      stroke-dashoffset: 0px;
+    }
+    svg{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      .line {
+        fill: none;
+        stroke: black;
+        stroke-width: 6px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transform-origin: 50%;
+        transition: stroke-dasharray 500ms 200ms, stroke-dashoffset 500ms 200ms, transform 500ms 200ms;
+      }
+      &.x{
+        transform: scale(0) translate(50%,50%);
+        transition: transform 400ms;
+        .line {
+          stroke-width: 5.5px;
+        }
+      }
+    }
+    &.close{
+      .line {
+        transition: stroke-dasharray 500ms, stroke-dashoffset 500ms, transform 500ms;
+      }
+      .line1 {
+        transform: scale(0, 1);
+        transition: transform 500ms 100ms;
+      }  
+      .line2 {
+        stroke-dasharray: 0 200;
+        stroke-dashoffset: -164px;
+      }
+      .line3 {
+        stroke-dasharray: 0 179;
+        stroke-dashoffset: -142px;
+      }
+      .x {
+        transform: scale(1);
+        transition: transform 400ms 250ms;
+      }
+    }
+  }
