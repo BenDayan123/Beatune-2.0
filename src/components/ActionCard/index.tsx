@@ -13,12 +13,12 @@ interface Props
 const ActionCard: React.FC<Props> = ({ title, icon: Icon, ...rest }) => {
   return (
     <div className="action-card" {...rest}>
-      <div className="card-content">
-        <div className="icon-container">
-          <Icon className="icon" />
-        </div>
-        <h1 id="title">{title}</h1>
+      <div className="icon-container">
+        <Icon className="icon" />
       </div>
+      <h1 id="title">{title}</h1>
+      {/* <div className="card-content">
+      </div> */}
     </div>
   );
 };

@@ -1,9 +1,5 @@
 import { IMusicPlayer } from ".";
-import {
-  shuffle as shuffleArray,
-  unshuffle,
-  generateSeed,
-} from "../../utils/shuffle";
+import { shuffle as shuffleQuery, unshuffle } from "../../utils/shuffle";
 
 export type Action = {
   type: number;
@@ -55,17 +51,21 @@ export function reducer(state: IMusicPlayer, action: Action): IMusicPlayer {
       return { ...state, is_mute: !is_mute };
     }
     case ACTIONS.TOGGLE_SHUFFLE_QUERY: {
-      const { shuffle, query, seed } = state;
+      const { shuffle, query, seed, index } = state;
       if (!shuffle) {
-        const seed = generateSeed(query);
+        const { list, seed } = shuffleQuery(query, index);
         return {
           ...state,
           seed,
           shuffle: !shuffle,
-          query: shuffleArray(query, seed),
+          query: list,
         };
       }
-      return { ...state, shuffle: !shuffle, query: unshuffle(query, seed) };
+      return {
+        ...state,
+        shuffle: !shuffle,
+        query: unshuffle(query, seed),
+      };
     }
     default:
       return state;

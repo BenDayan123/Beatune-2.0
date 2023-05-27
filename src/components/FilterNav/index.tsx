@@ -5,19 +5,18 @@ import { FilterItem } from "./item";
 import "./style.scss";
 
 interface Props {
-  setFilter(filter: string): void;
+  baseURL: string;
 }
 
 const items = [
-  { name: "All", to: "" },
+  { name: "All", to: "/" },
   { name: "Songs", to: "songs" },
   { name: "Artists", to: "artists" },
   { name: "Playlists", to: "playlists" },
   { name: "Users", to: "users" },
 ];
 
-const FilterNav: React.FC<Props> = ({ setFilter }) => {
-  const [active, setActive] = useState(0);
+const FilterNav: React.FC<Props> = ({ baseURL }) => {
   const [showLeft, setLeft] = useState(false);
   const [showRight, setRight] = useState(false);
   const list = useRef<HTMLUListElement>(null);
@@ -54,15 +53,7 @@ const FilterNav: React.FC<Props> = ({ setFilter }) => {
       <ul className="list" ref={list} onScroll={handleScroll}>
         {items.map((item, i) => {
           return (
-            <FilterItem
-              isActive={i === active}
-              key={i}
-              to={item.to}
-              onClick={() => {
-                setFilter(item.to);
-                setActive(i);
-              }}
-            >
+            <FilterItem key={item.to} to={baseURL + item.to}>
               {item.name}
             </FilterItem>
           );

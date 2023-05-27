@@ -1,27 +1,33 @@
-export function shuffle<T>(arr: T[], seed: number[], unshuffle = false) {
-  const newArr = Array.from(arr),
-    len = arr.length;
-
-  const swap = (a: number, b: number) =>
-    ([newArr[a], newArr[b]] = [newArr[b], newArr[a]]);
-
-  for (
-    let i = unshuffle ? len - 1 : 0;
-    (unshuffle && i >= 0) || (!unshuffle && i < len);
-    i += unshuffle ? -1 : 1
-  )
-    swap(seed[i % seed.length] % len, i);
-
-  return newArr;
+function swap(a: number, b: number, list: any[]) {
+  [list[a], list[b]] = [list[b], list[a]];
 }
 
-export function unshuffle<T>(arr: T[], seed: number[]) {
-  return shuffle(arr, seed, true);
+export function shuffle<T>(list: T[], index = 0) {
+  const seed = [...Array(list.length).keys()];
+  const temp = list.splice(index, 1);
+  seed.splice(index, 1);
+  for (let i = list.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    swap(i, j, list);
+    swap(i, j, seed);
+  }
+  list.splice(index, 0, ...temp);
+  seed.splice(index, 0, index);
+  return { list, seed };
 }
 
-export function generateSeed<T>(array: T[]) {
-  const seed: number[] = [];
-  for (var i = 0; i < array.length / 2; i++)
-    seed.push(Math.ceil(Math.random() * 10));
-  return seed;
+export function unshuffle<T>(list: T[], seed: number[]): T[] {
+  const newArr: T[] = [];
+  seed.forEach((shuffle, original) => {
+    newArr[shuffle] = list[original];
+  });
+  list = newArr;
+  return list;
 }
+
+
+// const array = [0,10,20,30,40];
+// const copy = [...array];
+// const { list,seed } = shuffle(array,2);
+// const unlist = unshuffle(list,seed);
+// console.log(`[${unlist}] -> [${list}]`);

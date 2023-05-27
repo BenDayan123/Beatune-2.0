@@ -1,0 +1,19 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="background" gradientTransform="rotate(90)">
+      <stop offset="5%" stop-color="#50b9fb" />
+      <stop offset="95%" stop-color="#a648fb" />
+    </linearGradient>
+  </defs>
+  <circle cx="200" cy="200" r="190" fill="url('#background')"/>
+  <g transform="rotate(-45) translate(-180,90)" fill="#ffffff" stroke-linejoin="round">
+    <rect width="180" height="30" x="100" y="100" 
+        rx="15px" ry="15px"/>
+    <rect width="180" height="30" x="100" y="150" 
+        rx="15px" ry="15px" transform="translate(-30,0)"/>
+    <rect width="180" height="30" x="100" y="200" 
+        rx="15px" ry="15px"/>
+    <rect width="180" height="30" x="100" y="250" 
+        rx="15px" ry="15px" transform="translate(-30,0)"/>
+  </g>
+</svg>

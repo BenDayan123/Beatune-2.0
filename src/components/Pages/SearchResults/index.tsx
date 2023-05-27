@@ -1,14 +1,9 @@
 import React from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useInfiniteQuery } from "react-query";
-import axios from "axios";
-import { Card, CardSlider } from "../../Card";
-import { ISong, IArtist, IUser } from "../../../interfaces";
-import { useMusicPlayer, ACTIONS } from "../../../hooks/useMusicPlayer";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 import ErrorPage from "../Error";
 import FilterNav from "../../FilterNav";
-import SpinnerLoading from "../../Loading/spinner";
-import { url, IsEmpty } from "../../../utils/general";
+import Results from "./results";
 import "./style.scss";
 // import { useInView } from "react-intersection-observer";
 // import {
@@ -28,109 +23,13 @@ import "./style.scss";
 //   }
 // }, [inView]);
 
-type SearchTypes = "users" | "playlists" | "artists" | "songs";
-
 const SearchResultsPage: React.FC = () => {
-  const [, dispatch] = useMusicPlayer();
-  const nav = useNavigate();
-  const [searchParams] = useSearchParams();
-  const { query } = useParams();
-  const types = searchParams.get("types");
-
-  const { data, isLoading, fetchNextPage } = useInfiniteQuery<any>(
-    ["search", query, types],
-    ({ pageParam = 0 }) =>
-      axios
-        .get(`search/${query}`, {
-          params: {
-            cursor: pageParam,
-            types: types ?? "",
-            limit: 20,
-          },
-        })
-        .then((res) => res.data),
-    {
-      enabled: !!query,
-      getNextPageParam: (_, pages) => pages.length ?? undefined,
-    }
-  );
-
-  function renderCardsByType(type: SearchTypes, data: any[]) {
-    switch (type) {
-      case "artists":
-        return data.map((artist: IArtist, i) => {
-          const { profile, name, _id } = artist;
-          return (
-            <Card
-              imgUrl={profile || ""}
-              title={name + " ♪"}
-              key={i}
-              round
-              onClick={() => nav(`/app/home?id=${_id}`)}
-            />
-          );
-        });
-      case "songs":
-        return data.map((song: ISong, i) => {
-          const { small_image, title, artist_id } = song;
-          return (
-            <Card
-              imgUrl={small_image || ""}
-              title={title}
-              description={"by " + artist_id.name}
-              key={i}
-              onClick={() => {
-                dispatch({
-                  type: ACTIONS.UPDATE,
-                  payload: {
-                    query: [song],
-                    index: 0,
-                  },
-                });
-              }}
-            />
-          );
-        });
-      case "users":
-        return data.map((user: IUser, i) => {
-          const { profile, username } = user;
-          return (
-            <Card
-              imgUrl={`${url}/media/${profile}`}
-              title={username}
-              key={i}
-              playIcon={false}
-              round
-            />
-          );
-        });
-      default:
-        return [];
-    }
-  }
-
-  if (isLoading) return <SpinnerLoading />;
-
-  if (IsEmpty(data?.pages[0])) return <ErrorPage query={query ?? ""} />;
-
+  const { query, filter } = useParams();
+  const { isError } = useQuery(["search", query, filter]);
   return (
     <div className="search-page">
-      <FilterNav
-        setFilter={(filter) =>
-          nav({
-            pathname: ".",
-            search: `types=${filter}`,
-          })
-        }
-      />
-
-      {data?.pages.map((page) =>
-        Object.entries(page).map(([type, dataChunk]: any, chunkIndex) => (
-          <CardSlider title={type} key={chunkIndex}>
-            {renderCardsByType(type, dataChunk)}
-          </CardSlider>
-        ))
-      )}
+      <FilterNav baseURL={`/app/search/${query}/`} />
+      {isError ? <ErrorPage query={query ?? ""} /> : <Results />}
 
       {/* <CardSlider title="Songs">
         {data?.pages.map((page, i) => (
@@ -190,6 +89,7 @@ const SearchResultsPage: React.FC = () => {
         ))}
       </CardSlider> */}
       {/* <button style={{ visibility: "hidden" }} ref={ref}></button> */}
+      {/* IsEmpty(data?.pages[0]) */}
     </div>
   );
 };

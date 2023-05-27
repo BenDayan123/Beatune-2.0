@@ -57,7 +57,7 @@ $themes: (
         display: flex;
         align-items: center;
         gap: 1em; 
-        .song-image{
+        .song-image, video{
             border-radius: 4px;
             height: 100%;
             max-width: 100%;

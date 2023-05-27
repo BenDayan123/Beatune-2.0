@@ -8,7 +8,7 @@ import MessageError from "./message";
 import PulseLoading from "../Loading/pulse";
 import RippleButton from "../RippleButton";
 import { AccountCircle, AlternateEmail, Https } from "@mui/icons-material";
-import Logo from "../../assests/logo.png";
+import Logo from "../../assests/icon.svg";
 import "./style.scss";
 
 const SignUpPage: React.FC = () => {

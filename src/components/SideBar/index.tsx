@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from "react";
 import { NavList } from "./nav";
 import { NavProvider } from "./navProvider";
-import Logo from "../../assests/logo.png";
+import Logo from "../../assests/icon.svg";
 import { MenuToggle } from "../exitButton";
 import { motion, useCycle, AnimatePresence } from "framer-motion";
 import Logout from "./logout";

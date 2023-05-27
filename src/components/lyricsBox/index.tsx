@@ -25,7 +25,7 @@ const LyricsBox: React.FC = () => {
   );
 
   function isVerse(line: string): boolean {
-    return line.indexOf("[") == 0 && line.lastIndexOf("]") == line.length - 1;
+    return line.indexOf("[") === 0 && line.lastIndexOf("]") === line.length - 1;
   }
 
   function getLightness(color: string) {

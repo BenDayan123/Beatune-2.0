@@ -6,15 +6,8 @@ import PulseLoading from "../Loading/pulse";
 import { useAuth } from "../../hooks/useAuth";
 import MessageError from "./message";
 import RippleButton from "../RippleButton";
-import Logo from "../../assests/logo.png";
-import { SocialButton, SocialContainer } from "./social";
-import {
-  Apple,
-  Facebook,
-  Google,
-  AccountCircle,
-  Https,
-} from "@mui/icons-material";
+import Logo from "../../assests/icon.svg";
+import { AccountCircle, Https } from "@mui/icons-material";
 import "./style.scss";
 
 const LoginPage: React.FC = () => {
@@ -104,11 +97,6 @@ const LoginPage: React.FC = () => {
             >
               {loading ? <PulseLoading color="#ffffff" /> : "Login Here"}
             </RippleButton>
-            <SocialContainer>
-              <SocialButton title="Apple" icon={Apple} />
-              <SocialButton title="Facebook" icon={Facebook} />
-              <SocialButton title="Google" icon={Google} />
-            </SocialContainer>
           </form>
 
           <p className="link">

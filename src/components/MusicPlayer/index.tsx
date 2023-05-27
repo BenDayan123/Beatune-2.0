@@ -45,6 +45,11 @@ const MusicPlayer: React.FC = () => {
 
   useEffect(() => {
     const { title, artist_id, small_image } = currSong;
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title,
+      artist: artist_id?.name,
+    });
+
     emit("song-change", {
       name: `Listening to "${title}"`,
       artist: "By " + artist_id?.name,
@@ -135,7 +140,7 @@ const MusicPlayer: React.FC = () => {
           isDisable={IsEmpty(currSong)}
           active={Boolean(isLyricsActive)}
           onClick={() => {
-            nav(!Boolean(isLyricsActive) ? "lyrics" : "");
+            !Boolean(isLyricsActive) ? nav("lyrics") : nav(-1);
           }}
         />
         <VolumeController />

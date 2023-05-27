@@ -1,11 +1,11 @@
 import React from "react";
 import { Row } from "../../Table";
-import { useMusicPlayer } from "../../../hooks/useMusicPlayer";
+import { useMusicPlayer, ACTIONS } from "../../../hooks/useMusicPlayer";
 import { ImageShimmer } from "../../Loading/shimmer/image";
 import { secondsToISOFormet } from "../../../utils/format";
 
 const Queue: React.FC = () => {
-  const [musicPlayer] = useMusicPlayer();
+  const [musicPlayer, dispatch] = useMusicPlayer();
   const { query } = musicPlayer;
   return (
     <>
@@ -16,6 +16,15 @@ const Queue: React.FC = () => {
             index={i + 1}
             isActive={song._id === musicPlayer.currSong()?._id}
             id={song._id}
+            onClick={() => {
+              dispatch({
+                type: ACTIONS.UPDATE,
+                payload: {
+                  query: query,
+                  index: i,
+                },
+              });
+            }}
             row={[
               <div className="contianer-in-line">
                 <ImageShimmer src={song.small_image} />

@@ -106,7 +106,7 @@ $gradient: radial-gradient(at 74% 49%, hsla(23,88%,71%,1) 0px, transparent 50%),
             transition: all 200ms ease-out;
             &:hover{
                 opacity: 1;
-                text-shadow: rgba(68, 63, 63, 0.525) 0px 0px 12px;
+                text-shadow: rgba(63, 63, 63, 0.5) 0px 0px 12px;
             }
             &.verse-title{
                 pointer-events: none;

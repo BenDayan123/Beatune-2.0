@@ -5,7 +5,6 @@ import { ImageShimmer } from "./Loading/shimmer/image";
 import AccessTimeTwoToneIcon from "@mui/icons-material/AccessTimeTwoTone";
 import { useMusicPlayer, ACTIONS } from "../hooks/useMusicPlayer";
 import { useDownload } from "../hooks/useDownloader";
-
 import { url } from "../utils/general";
 import {
   numberWithCommas,
@@ -107,7 +106,7 @@ const TracksTable: React.FC<Props> = ({ songs }) => {
                   })
                 }
               >
-                <Delete /> Delete
+                <Delete /> Remove From Playlist
               </MenuItem>
             </>
           }
