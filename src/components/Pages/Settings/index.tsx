@@ -1,21 +1,31 @@
-import React from "react";
+import React, { useMemo } from "react";
 import NavBar, { RouteType } from "../../NavBar";
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { GeneralPage } from "./routes";
 import "./style.scss";
+import { CloseButton } from "../../Close";
 
 const routes: RouteType[] = [
   { path: "general", text: "General" },
   { path: "security", text: "Security" },
-  { path: "notifications", text: "Notifications" },
   { path: "audio", text: "Audio" },
-  { path: "other", text: "Other" },
 ];
 
 const Settings: React.FC = () => {
+  const location = useLocation();
+  const path = useMemo(() => location.state.path, []);
+  const nav = useNavigate();
+
   return (
     <div className="page settings">
       <h1 id="title">Settings</h1>
+      <CloseButton onClick={() => nav(path)} />
       <NavBar routes={routes} />
       <div id="options-section">
         <Routes>

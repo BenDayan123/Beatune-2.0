@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useRef } from "react";
 import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
 import { ImageShimmer } from "../Loading/shimmer/image";
+import VerifiedIcon from "../../assests/verified.svg";
 import "./style.scss";
 
 interface Props
@@ -13,6 +14,7 @@ interface Props
   description?: string;
   round?: boolean;
   playIcon?: boolean;
+  is_verified?: boolean;
 }
 
 export const CardSlider: React.FC<PropsWithChildren<{ title?: string }>> = ({
@@ -44,6 +46,7 @@ export const Card: React.FC<Props> = ({
   imgUrl,
   title,
   description,
+  is_verified,
   round = false,
   playIcon = true,
   ...rest
@@ -61,7 +64,12 @@ export const Card: React.FC<Props> = ({
         {playIcon && <PlayCircleFilledRoundedIcon className="icon" />}
       </div>
       <div className="content">
-        <h1 id="title">{title}</h1>
+        <div className="inline">
+          <h1 id="title">{title}</h1>
+          {is_verified && (
+            <img src={VerifiedIcon} alt="verified" className="verified-icon" />
+          )}
+        </div>
         <p className="description">{description}</p>
       </div>
     </article>

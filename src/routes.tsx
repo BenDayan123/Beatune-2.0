@@ -6,6 +6,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { NotificationProvider } from "./hooks/useNotifications";
 
+const AlbumPage = lazy(() => import("./components/Pages/Album"));
 const PlaylistPage = lazy(() => import("./components/Pages/Playlist"));
 const PlaylistsPage = lazy(() => import("./components/Pages/Playlists"));
 const Queue = lazy(() => import("./components/Pages/Query"));
@@ -17,9 +18,7 @@ const SettingsPage = lazy(() => import("./components/Pages/Settings"));
 const AppRoutes: React.FC = () => {
   const nav = useNavigate();
 
-  useEffect(() => {
-    nav("/app");
-  }, []);
+  useEffect(() => nav("/app"), []);
 
   return (
     <Routes>
@@ -36,6 +35,7 @@ const AppRoutes: React.FC = () => {
         <Route path="home/*" element={<ArtistPage />} />
         <Route path="playlist/*" element={<PlaylistsPage />} />
         <Route path="playlist/:id" element={<PlaylistPage />} />
+        <Route path="album/:id" element={<AlbumPage />} />
         <Route path="queue/*" element={<Queue />} />
         <Route path="lyrics" element={<LyricsBox />} />
         <Route path="search/:query" element={<SearchPage />} />

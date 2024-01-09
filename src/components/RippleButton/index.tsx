@@ -5,12 +5,15 @@ interface Props
   extends React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  > {}
+  > {
+  loading?: boolean;
+}
 
 const RippleButton: React.FC<PropsWithChildren<Props>> = ({
   children,
   onClick,
   className,
+  loading,
   ...rest
 }) => {
   const [coords, setCoords] = useState({ x: -1, y: -1, d: -1 });
@@ -52,7 +55,7 @@ const RippleButton: React.FC<PropsWithChildren<Props>> = ({
           }}
         />
       )}
-      {children}
+      {loading ? "Loading..." : children}
       {/* <span className="content">{children}</span> */}
     </button>
   );

@@ -3,18 +3,31 @@ import { Row } from "../../Table";
 import { useMusicPlayer, ACTIONS } from "../../../hooks/useMusicPlayer";
 import { ImageShimmer } from "../../Loading/shimmer/image";
 import { secondsToISOFormet } from "../../../utils/format";
+import PlaylistRemove from "@mui/icons-material/PlaylistRemove";
+import ErrorPage from "../Error";
+import { TrackContextMenu } from "../Album/ContextMenu/track";
 
 const Queue: React.FC = () => {
   const [musicPlayer, dispatch] = useMusicPlayer();
-  const { query } = musicPlayer;
+  const { query, currentTrack } = musicPlayer;
+
+  if (query.length === 0)
+    return (
+      <ErrorPage
+        title="Queue is empty"
+        body="There no tracks in the queue"
+        icon={PlaylistRemove}
+      />
+    );
+
   return (
-    <>
-      <h1>Queue</h1>
+    <div>
       <div className="table-container">
         {query.map((song, i) => (
           <Row
             index={i + 1}
-            isActive={song._id === musicPlayer.currSong()?._id}
+            menu={<TrackContextMenu track={song} />}
+            isActive={song._id === currentTrack?._id}
             id={song._id}
             onClick={() => {
               dispatch({
@@ -26,17 +39,17 @@ const Queue: React.FC = () => {
               });
             }}
             row={[
-              <div className="contianer-in-line">
-                <ImageShimmer src={song.small_image} />
+              <div className="title">
+                <ImageShimmer src={song.album.small_image} />
                 <p>{song.title}</p>
               </div>,
-              secondsToISOFormet(song.duration),
+              secondsToISOFormet(song.duration / 1000),
             ]}
             key={song._id}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

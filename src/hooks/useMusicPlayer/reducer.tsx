@@ -15,6 +15,8 @@ export enum ACTIONS {
   TOGGLE_LOOP,
   SET_CURRENT_TIME,
   TOGGLE_SHUFFLE_QUERY,
+  ADD_NEXT,
+  ADD_TO_END,
 }
 
 export function reducer(state: IMusicPlayer, action: Action): IMusicPlayer {
@@ -22,6 +24,15 @@ export function reducer(state: IMusicPlayer, action: Action): IMusicPlayer {
   switch (action.type) {
     case ACTIONS.UPDATE: {
       return { ...state, ...payload };
+    }
+    case ACTIONS.ADD_NEXT: {
+      const { query, index } = state;
+      const copy = [...query];
+      copy.splice(index + 1, 0, payload.track);
+      return { ...state, query: copy };
+    }
+    case ACTIONS.ADD_TO_END: {
+      return { ...state, query: [...state.query, payload.track] };
     }
     case ACTIONS.FORWARD: {
       const { query, index } = state;

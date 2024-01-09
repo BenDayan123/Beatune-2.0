@@ -1,12 +1,14 @@
 import React, { createContext, useReducer, PropsWithChildren } from "react";
 import { reducer as PlayerReducer, Action, ACTIONS } from "./reducer";
 import { ISong } from "../../interfaces";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 export interface IMusicPlayer {
   query: ISong[];
   index: number;
-  currSong(): ISong;
   seed: number[];
+  currentTrack?: ISong;
   shuffle: boolean;
   is_playing: boolean;
   audio: React.RefObject<HTMLAudioElement>;
@@ -34,9 +36,6 @@ export const MusicPlayerProvider: React.FC<PropsWithChildren<any>> = ({
 }) => {
   const [musicPlayer, dispatch] = useReducer(PlayerReducer, {
     query: [],
-    currSong: function (): ISong {
-      return this.query[this.index] || {};
-    },
     seed: [],
     index: -1,
     volume: 20,
@@ -53,9 +52,19 @@ export const MusicPlayerProvider: React.FC<PropsWithChildren<any>> = ({
       currentTime: 0,
     },
   });
+  const playedTrackID = musicPlayer.query[musicPlayer.index]?._id || null;
+
+  const { data: currentTrack } = useQuery({
+    queryKey: ["track", playedTrackID],
+    queryFn: () =>
+      axios.get<ISong>(`/song/${playedTrackID}`).then((res) => res.data),
+    enabled: !!playedTrackID,
+  });
 
   return (
-    <MusicPlayerContext.Provider value={[musicPlayer, dispatch]}>
+    <MusicPlayerContext.Provider
+      value={[{ ...musicPlayer, currentTrack }, dispatch]}
+    >
       {children}
     </MusicPlayerContext.Provider>
   );

@@ -28,29 +28,16 @@ const GeneralPage: React.FC = () => {
         text="Interface theme"
         description="Select or customize you UI theme."
       >
-        <Switch
-          onClick={() =>
-            setSettings((prev) => ({
-              ...prev,
-              theme: prev.theme === "light" ? "dark" : "light",
-            }))
-          }
-          isOn={settings.theme === "dark"}
-        />
-      </Option>
-      <Option text="Kaki!">
-        <RadioContainer name="test">
+        <RadioContainer name="light">
           <RadioInput
             value="Light"
             checked={settings.theme == "light"}
             onClick={() => updateSettings({ theme: "light" })}
-            description="Everbody can see your playlists"
           />
           <RadioInput
             value="Dark"
             onClick={() => updateSettings({ theme: "dark" })}
             checked={settings.theme == "dark"}
-            description="Only for people that follow you"
           />
           <RadioInput value="OS" description="Base on The Computer's Theme" />
         </RadioContainer>

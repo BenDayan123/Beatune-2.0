@@ -4,7 +4,6 @@ import "./index.scss";
 import WindowBar from "./windowBar";
 import App from "./App";
 import { ThemeProvider } from "./hooks/useTheme";
-// import * as RPC from "discord-rpc";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,9 +12,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-      {window.__TAURI_METADATA__ && <WindowBar />}
+      {window?.__TAURI_METADATA__ && <WindowBar />}
       <App />
     </ThemeProvider>
   </React.StrictMode>
 );
-// rafce

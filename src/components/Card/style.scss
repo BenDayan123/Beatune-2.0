@@ -18,9 +18,9 @@ $themes: (
 .card-slider-container{
     position: relative;
     padding: 1.5em;
-    &:not(:has(.card)){
-        display: none;
-    }
+    // &:not(:has(.card)){
+    //     display: none;
+    // }
     .title{
         text-transform: capitalize;
     }
@@ -80,6 +80,7 @@ $themes: (
     isolation: isolate;
     cursor: pointer;
     gap: 10px;
+    outline: none;
 
     @include themify($themes){
         background: themed("bg");
@@ -173,6 +174,15 @@ $themes: (
         position: relative;
         flex: 1 1;
         resize: both;
+        .inline{
+            display: flex;
+            align-items: center;
+            gap: .3em;
+        }
+        .verified-icon{
+            aspect-ratio: 1;
+            width: 1em;   
+        }
         #title{
             overflow: hidden !important;
             text-overflow: ellipsis;

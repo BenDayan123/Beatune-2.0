@@ -18,6 +18,18 @@ $themes: (
     ),
 );
 
+$themes: (
+    light: (
+      header: #303a58,
+      bg: #161414,
+      text: #ffffff,
+    ),
+    dark: (
+      header: rgb(180, 180, 180),
+      bg: #ffff,
+      text: #000,
+    ),
+);
 @mixin RowGrid {
     padding: 1px 1em;
     // display: grid;
@@ -36,37 +48,50 @@ $themes: (
     padding: 40px 30px;
     @include set_load_animation();
 
+    caption{
+        font-size: 2em;
+        font-weight: bold;
+    }
     @include themify($themes){
+        caption{
+            transition: color $duration;
+            color: themed("header");
+        }
         #top-header{
             .cell{
                 transition: color $duration;
-                color: themed("text");
+                color: themed("header");
                 svg{
                     transition: fill $duration;
-                    fill: themed("text")
+                    fill: themed("header")
                 }
              }
         }
         .row{
             transition: background $duration;
             &.active{
-                background: themed("active-bg");
+                background: themed("bg");
                 .cell, .cell *{
-                    color: themed("active-text")
+                    color: themed("text")
                 }
             }
-            &:not(.active):hover{
-                background: themed("bg-hover");
+            &:not(.active){
                 .cell, .cell *{
-                    color: themed("text-hover")
+                    transition: color $duration;
+                    color: rgba(themed("bg"), .6);
+                    // .title p{
+                    //     color: themed("bg");
+                    // }
+                }
+                &:hover{
+                    background: rgba(themed("bg"), 0.6);
+                    .cell, .cell *{
+                        color: themed("text")
+                    }
                 }
             }
             .wave{
-                background: themed("active-text");
-            }
-            .cell, .cell *{
-                transition: color $duration;
-                color: themed("text")
+                background: themed("text");
             }
         }
     }
@@ -135,7 +160,7 @@ $themes: (
                 overflow: hidden; 
                 white-space: nowrap;
             }
-            .contianer-in-line{
+            .title{
                 display: flex;
                 column-gap: 1em;
                 justify-content: left;

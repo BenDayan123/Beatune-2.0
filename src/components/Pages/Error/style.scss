@@ -1,8 +1,9 @@
 @use "../../styles/theme" as *;
+@use "../../styles/mixin" as *;
 
 $themes: (
     light: (
-       color:#101012
+       color:#464242
     ),
     dark: (
         color: #ffff
@@ -11,6 +12,7 @@ $themes: (
 
 .error-page{
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,21 +20,36 @@ $themes: (
     pointer-events: none;
     user-select: none;
     padding: 1em;
+    @include set_load_animation();
     gap: 1em;
     @include themify($themes){
-        .icon{
-            fill: themed("color");
+        .icon-container{
+            background: rgba(themed("color"), .2);
+            border: 3px solid themed("color");
+            svg{
+                fill: themed("color");
+            }
         }
-        #title, .text{
+        #title{
             color: themed("color");
         }
+        .text{
+            color: rgba(themed("color"), .5);
+        }
     }
-    .icon{
-        $size: 10em;
+    .icon-container{
+        $size: 15em;
         width: $size;
         height: $size;
+        border-radius: 50%;
+        padding: 2em;
+        svg{
+            width: 100%;
+            height: 100%;
+        }
     }
     #title{
+        text-align: center;
         font-size: 2em;
     }
 }

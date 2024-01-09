@@ -12,6 +12,7 @@ const items = [
   { name: "All", to: "/" },
   { name: "Songs", to: "songs" },
   { name: "Artists", to: "artists" },
+  { name: "Albums", to: "albums" },
   { name: "Playlists", to: "playlists" },
   { name: "Users", to: "users" },
 ];

@@ -37,9 +37,14 @@ $themes: (
     @include themify($themes){
         transition: background $duration;
         background: themed("bg");
-        svg{
-            transition: fill $duration;
-            fill: themed("icon");
+        .popup-menu{
+            background: themed("bg");
+        }
+        .icon--container{
+            svg{
+                transition: fill $duration;
+                fill: themed("icon");
+            }
         }
         // border-top: 2px solid darken(themed("bg"), 5%);
     }
@@ -51,6 +56,17 @@ $themes: (
     justify-content: space-between;
     & > *{
         flex: 0 1 calc(100%/3);
+    }
+    .popup-menu{
+        position: absolute;
+        border-radius: 1em;
+        top:-200%;
+        width: min-content;
+        max-height: 50vh;
+        overflow: auto;    
+        left: 50%;
+        transform: translate(-60%, -100%);
+        box-shadow: 0 4px 60px rgba(64, 62, 62, 0.1);
     }
     .song-info{
         height: 100%;

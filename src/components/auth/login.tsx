@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Input } from "../Inputs/Input";
 import { Link } from "react-router-dom";
@@ -8,30 +8,33 @@ import MessageError from "./message";
 import RippleButton from "../RippleButton";
 import Logo from "../../assests/icon.svg";
 import { AccountCircle, Https } from "@mui/icons-material";
+import { useMutation } from "react-query";
+import { LoginRoute, ILoginForm } from "../../api/auth";
 import "./style.scss";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>("MotoMoto");
   const [password, setPassword] = useState<string>("");
   const [isDisable, setDisable] = useState(true);
+  const { dispatch, LogOut } = useAuth();
 
   const {
-    auth,
-    logout,
-    authState: { loading, error },
-  } = useAuth();
+    mutate: loginUser,
+    isLoading,
+    error,
+    isError,
+  } = useMutation((userData: ILoginForm) => LoginRoute(userData), {
+    onSuccess: ({ access_token }) => {
+      dispatch(access_token);
+    },
+  });
+
+  useEffect(() => LogOut(), []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isDisable) {
-      const form = { username, password };
-      auth({ form, path: "/auth/user/login" });
-    }
+    !isDisable && loginUser({ username, password });
   };
-
-  useEffect(() => {
-    logout();
-  }, []);
 
   return (
     <div className="page-container-auth">
@@ -85,17 +88,16 @@ const LoginPage: React.FC = () => {
               ]}
               name="password"
             />
-
             <MessageError
-              message={error ? error.response?.data.message : ""}
-              show={!!error}
+              message={error && (error as any).response.data.message}
+              show={!!isError}
             />
             <RippleButton
               className="submit-btn"
               type="submit"
               disabled={isDisable}
             >
-              {loading ? <PulseLoading color="#ffffff" /> : "Login Here"}
+              {isLoading ? <PulseLoading color="#ffffff" /> : "Login Here"}
             </RippleButton>
           </form>
 

@@ -25,7 +25,6 @@ function App() {
   //   e.preventDefault();
   //   return false;
   // }
-
   // document.addEventListener("contextmenu", handleContextMenu, {
   //   capture: true,
   // });

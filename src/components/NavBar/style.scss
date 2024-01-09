@@ -26,12 +26,11 @@ $colors: (
                 box-shadow: 0px -8px 13px 0px themed("shadow-line");
             }
             .link{
+                color: rgba(themed("text"), .5);
                 &.active{
                     transition: color $duration;
                     color: themed("text");
-                    opacity: 1;
                     // font-weight: bold;
-
                 }
                 &:not(.active):hover{
                     transition: color $duration;
@@ -48,7 +47,6 @@ $colors: (
         width: fit-content;
         .link{
             // color: #7f7d7d;
-            opacity: .4;
             text-align: center;
             padding: 1.5rem;
             font-size: .8em;

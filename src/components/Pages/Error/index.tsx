@@ -1,21 +1,25 @@
 import React from "react";
-import SearchOffIcon from "@mui/icons-material/SearchOff";
 import "./style.scss";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { SvgIconTypeMap } from "@mui/material";
 
 interface Props {
-  query: string;
+  title: string;
+  body: string;
+  icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
 }
 
-const ErrorPage: React.FC<Props> = ({ query }) => {
+const ErrorPage: React.FC<Props> = ({ body, title, icon: Icon }) => {
   return (
-    <section className="error-page">
-      <SearchOffIcon className="icon" />
-      <h1 id="title">No results found for "{query}"</h1>
-      <p className="text">
-        Please make sure your words are spelled correctly or use less or
-        different keywords.
-      </p>
-    </section>
+    <div className="error-page">
+      {Icon && (
+        <div className="icon-container">
+          <Icon className="icon" />
+        </div>
+      )}
+      <h1 id="title">{title}</h1>
+      <p className="text">{body}</p>
+    </div>
   );
 };
 

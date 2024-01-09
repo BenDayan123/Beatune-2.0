@@ -4,13 +4,12 @@ import UserProfile from "./profile";
 import { Settings, ArrowBack, ArrowForward } from "@mui/icons-material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import IconWrap from "../Icon";
-import { useNavigate } from "react-router-dom";
-import { useSaveLocal } from "../../utils/storage";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./style.scss";
 
 const TopBar: React.FC = () => {
   const navigate = useNavigate();
-  // const progress = useSaveLocal("62bb43392490d59b55225ba4");
+  const location = useLocation();
 
   return (
     <div className="bar-container">
@@ -32,7 +31,9 @@ const TopBar: React.FC = () => {
           )}
           <IconWrap
             className="icon icon-button"
-            onClick={() => navigate("settings")}
+            onClick={() =>
+              navigate("settings", { state: { path: location.pathname } })
+            }
             icon={Settings}
           />
           <UserProfile />

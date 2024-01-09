@@ -84,11 +84,11 @@ $themes: (
             cursor: pointer;
             transition: all 400ms;
             &:hover{
-                scale: 1.1;
-                border-radius: 5px;
+                scale: 1.05;
+                border-radius: 10px;
             }
             &:active{
-                scale: .8;
+                scale: .9;
             }
         }
     }

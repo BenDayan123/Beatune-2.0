@@ -24,7 +24,7 @@ const WindowBar: React.FC = () => {
     <div
       data-tauri-drag-region
       className="window-bar"
-      style={{ background: themes[theme].bg }}
+      style={{ background: themes[theme]?.bg }}
     >
       <h5
         id="href"

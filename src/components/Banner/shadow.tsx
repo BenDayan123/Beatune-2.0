@@ -9,7 +9,7 @@ const Shadow: React.FC<Props> = ({ color }) => {
     <div
       className="top-shadow"
       style={{
-        backgroundImage: `linear-gradient(to bottom,${color}60,transparent 100%)`,
+        backgroundImage: `linear-gradient(to bottom,${color}40,transparent 100%)`,
       }}
     ></div>
   );

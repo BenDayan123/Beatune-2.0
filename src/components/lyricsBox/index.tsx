@@ -4,6 +4,8 @@ import { ImageShimmer } from "../Loading/shimmer/image";
 import { useColor } from "../../hooks/useColor";
 import { useMusicPlayer } from "../../hooks/useMusicPlayer";
 import "./style.scss";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CloseButton } from "../Close";
 
 // interface Props {
 //   lyrics: string;
@@ -12,13 +14,15 @@ import "./style.scss";
 
 const LyricsBox: React.FC = () => {
   const [musicPlayer] = useMusicPlayer();
-  const { lyrics, image } = musicPlayer.currSong();
+  const { currentTrack } = musicPlayer;
+  const { lyrics, album } = currentTrack ?? {};
 
   const [title, ...lines] = useMemo(
-    () => (lyrics ? lyrics.split("\n") : ""),
+    () =>
+      lyrics ? lyrics.split("\n") : ["", "This song is an instrumental ♬"],
     [lyrics]
   );
-  const { color, isLoading } = useColor(image || "");
+  const { color, isLoading } = useColor(album?.image ?? undefined);
   const textColor = useMemo(
     () => (getLightness(color) > 125 ? "#000000" : "#ffffff"),
     [color]
@@ -37,12 +41,12 @@ const LyricsBox: React.FC = () => {
 
   return (
     <section className="lyrics-container" style={{ background: color }}>
-      {isLoading ? (
+      {isLoading || !currentTrack ? (
         <SpinnerLoading />
       ) : (
         <>
           <div className="image-container">
-            <ImageShimmer src={image} className="undragable" />
+            <ImageShimmer src={album?.image} className="undragable" />
             <p id="title" className="undragable">
               {title.replace(/Lyrics\[.+]/g, "")}
             </p>

@@ -5,7 +5,7 @@ import "./style.scss";
 
 interface Props {
   visiblePrecent: number;
-  headerRef: any;
+  headerRef: React.LegacyRef<HTMLElement>;
   color: string;
   info: {
     image: string;
@@ -53,7 +53,7 @@ const ColorfulBanner: React.FC<PropsWithChildren<Props>> = ({
             draggable={false}
           />
           <div>
-            <h3 className="page-type inline-icon-text">{type}</h3>
+            <div className="page-type inline-icon-text">{type}</div>
             <h1 className="title">{title}</h1>
             <div className="description inline-icon-text">{description}</div>
           </div>

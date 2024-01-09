@@ -1,10 +1,17 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import RangeBar from "../Sliderbar";
 import { useMusicPlayer, ACTIONS } from "../../hooks/useMusicPlayer";
 import AudioRef from "../audio-player";
 import Controls from "./controls";
-import { Link, useNavigate, useMatch, useResolvedPath } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useMatch,
+  useResolvedPath,
+  useLocation,
+} from "react-router-dom";
 import { IsEmpty } from "../../utils/general";
+import Queue from "../Pages/Query";
 import { secondsToISOFormet } from "../../utils/format";
 import VolumeController from "./volume";
 import IconContainer from "../Icon";
@@ -13,6 +20,9 @@ import { useTheme } from "../../hooks/useTheme";
 import { ImageShimmer } from "../Loading/shimmer/image";
 import { emit } from "@tauri-apps/api/event";
 import "./style.scss";
+import { ContextMenuWrapper } from "../ContextMenu";
+import { TrackContextMenu } from "../Pages/Album/ContextMenu/track";
+import { ISong } from "../../interfaces";
 // import { Helmet } from "react-helmet";
 
 const rangeColors = {
@@ -30,32 +40,34 @@ const rangeColors = {
 
 const MusicPlayer: React.FC = () => {
   const [musicPlayer, dispatch] = useMusicPlayer();
-  const currSong = musicPlayer.currSong();
-  const { audio, playback } = musicPlayer;
+  const { audio, playback, currentTrack } = musicPlayer;
 
   const { theme } = useTheme();
   const isLyricsActive = useMatch({
     path: useResolvedPath("lyrics").pathname,
   });
-  const isQueueActive = useMatch({
-    path: useResolvedPath("queue").pathname,
-  });
+  const [isQueueActive, setQueueActive] = useState(false);
+  // const isQueueActive = useMatch({
+  //   path: useResolvedPath("queue").pathname,
+  // });
 
   const nav = useNavigate();
 
   useEffect(() => {
-    const { title, artist_id, small_image } = currSong;
+    if (!currentTrack) return;
+    const { title, artist, album } = currentTrack;
     navigator.mediaSession.metadata = new MediaMetadata({
       title,
-      artist: artist_id?.name,
+      artwork: [{ src: album.image }],
+      artist: artist?.name,
     });
 
     emit("song-change", {
       name: `Listening to "${title}"`,
-      artist: "By " + artist_id?.name,
-      image: small_image,
+      artist: "By " + artist?.name,
+      image: album?.small_image,
     });
-  }, [currSong]);
+  }, [currentTrack]);
 
   const { loaded, buffered, rest } = rangeColors[theme];
   const { percent, percentBuffered } = useMemo(() => {
@@ -72,29 +84,30 @@ const MusicPlayer: React.FC = () => {
   return (
     <div className="music-player">
       <AudioRef />
-      <div
+      <ContextMenuWrapper
+        items={<TrackContextMenu track={currentTrack as ISong} />}
         className="song-info"
-        style={{ visibility: currSong ? "visible" : "hidden" }}
+        style={{ visibility: currentTrack ? "visible" : "hidden" }}
       >
-        {!IsEmpty(currSong) && (
+        {currentTrack && (
           <>
             <ImageShimmer
               className="song-image"
-              src={currSong.small_image}
+              src={currentTrack.album.small_image}
               alt=""
             />
             <div className="song-data">
-              <label className="song-name">{currSong.title}</label>
+              <label className="song-name">{currentTrack.title}</label>
               <Link
-                to={`/app/home?id=${currSong.artist_id?._id}`}
+                to={`/app/home?id=${currentTrack.artist?._id}`}
                 className="artist-name"
               >
-                {currSong.artist_id && currSong.artist_id.name}
+                {currentTrack.artist && currentTrack.artist.name}
               </Link>
             </div>
           </>
         )}
-      </div>
+      </ContextMenuWrapper>
       <div className="middle-controll">
         <Controls />
         <RangeBar
@@ -128,16 +141,23 @@ const MusicPlayer: React.FC = () => {
         />
       </div>
       <div className="right-control">
-        <IconContainer
-          icon={QueueMusic}
-          menu="Queue"
-          active={Boolean(isQueueActive)}
-          onClick={() => nav("queue")}
-        />
+        <div style={{ position: "relative" }}>
+          <IconContainer
+            icon={QueueMusic}
+            menu="Queue"
+            active={Boolean(isQueueActive)}
+            onClick={() => setQueueActive((p) => !p)}
+          />
+          {Boolean(isQueueActive) && (
+            <div className="popup-menu">
+              <Queue />
+            </div>
+          )}
+        </div>
         <IconContainer
           menu="Lyrics"
           icon={Lyrics}
-          isDisable={IsEmpty(currSong)}
+          isDisable={!currentTrack}
           active={Boolean(isLyricsActive)}
           onClick={() => {
             !Boolean(isLyricsActive) ? nav("lyrics") : nav(-1);

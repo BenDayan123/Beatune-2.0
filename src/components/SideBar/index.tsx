@@ -50,7 +50,7 @@ const SideBar: React.FC = memo(() => {
             key={download.key}
             transition={{ duration: 0.6, delay: 3 }}
           >
-            <DownloadCard progress={download.percentage} name={download.key} />
+            <DownloadCard progress={download.percentage} name={download.name} />
           </motion.div>
         ))}
       </AnimatePresence>

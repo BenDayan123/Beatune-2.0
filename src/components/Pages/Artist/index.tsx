@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { useColor } from "../../../hooks/useColor";
 import ArtistBanner, { Shadow } from "../../Banner";
 import Buttons from "./buttons";
+import { AlbumsPage } from "./routes";
+import { Routes, Route } from "react-router-dom";
 import ArtistNavBar, { RouteType } from "../../NavBar";
 import axios from "axios";
 import { useURLQuery } from "../../../hooks/useQuery";
@@ -10,14 +12,12 @@ import { IArtist } from "../../../interfaces";
 import { toShortNumber } from "../../../utils/format";
 import SpinnerLoading from "../../Loading/spinner";
 import { MusicNote, Headset } from "@mui/icons-material";
-import TracksTable from "../../TracksTable";
+import VerifiedIcon from "../../../assests/verified.svg";
 import "./style.scss";
 
 export function useArtist(id: string) {
   return useQuery<IArtist, Error>(["artist", id], async () => {
-    const { data } = await axios.get("/artist", {
-      params: { id },
-    });
+    const { data } = await axios.get(`/artist/${id}`);
     return data;
   });
 }
@@ -26,7 +26,6 @@ const routes: RouteType[] = [
   { path: "popular", text: "Popular" },
   { path: "albums", text: "Albums" },
   { path: "songs", text: "Songs" },
-  { path: "fans_like", text: "Fans also like" },
   { path: "about", text: "About" },
 ];
 
@@ -35,7 +34,7 @@ const ArtistPage: React.FC = () => {
   const { data, isSuccess } = useArtist(artist_id);
   const header = useRef<any>(null);
   const [visiblePrecent, setVisiblePrecent] = useState(100);
-  const { color } = useColor(data?.profile || "", 10);
+  const { color } = useColor(data?.profile ?? undefined, 10);
 
   function handleScroll(e: React.UIEvent<HTMLElement, UIEvent>) {
     const { scrollTop } = e.currentTarget;
@@ -46,7 +45,7 @@ const ArtistPage: React.FC = () => {
 
   if (!isSuccess) return <SpinnerLoading />;
 
-  const { name, streams, profile } = data;
+  const { name, profile, is_verified, streams } = data;
 
   return (
     <section className="artist-page" onScroll={handleScroll}>
@@ -59,19 +58,15 @@ const ArtistPage: React.FC = () => {
             image: profile,
             type: (
               <>
-                <p>Artist</p>
-                <MusicNote />
+                <h3>Artist</h3>
+                {is_verified && <img src={VerifiedIcon} alt="verified" />}
               </>
             ),
             title: name,
             description: (
               <>
                 <Headset />
-                <p>
-                  {`${toShortNumber(
-                    +streams.replaceAll(",", "")
-                  )} Monthly Listeners`}
-                </p>
+                <p>{`${toShortNumber(streams)} Monthly Listeners`}</p>
               </>
             ),
           }}
@@ -84,7 +79,11 @@ const ArtistPage: React.FC = () => {
 
       <div className="bottom-data">
         <Shadow color={color} />
-        <TracksTable songs={data.songs} />
+        <Routes>
+          <Route path="albums" element={<AlbumsPage />} />
+          <Route path="*" element={<h1>Other</h1>} />
+        </Routes>
+        {/* <TracksTable songs={data.songs} /> */}
       </div>
     </section>
   );

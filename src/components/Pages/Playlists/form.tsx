@@ -18,7 +18,7 @@ const PlaylistForm: React.FC = () => {
 
   const mutation = useMutation(
     (form: FormData) => {
-      return axios.post("/playlist/create", form);
+      return axios.post("/playlist", form);
     },
     {
       onSuccess: ({ data: newPlayist }) => {
@@ -82,7 +82,11 @@ const PlaylistForm: React.FC = () => {
           name="description"
           required={true}
         />
-        <RippleButton className="submit-button" type="submit">
+        <RippleButton
+          loading={mutation.isLoading}
+          className="submit-button"
+          type="submit"
+        >
           Create
         </RippleButton>
       </form>

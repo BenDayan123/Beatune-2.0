@@ -8,6 +8,10 @@ $delete: rgb(222, 66, 66);
     z-index: 999997;
     background: #18191c;
     border-radius: 10px;
+    *.disable{
+        opacity: .6;
+        pointer-events: none;
+    }
     img{
         aspect-ratio: 1 / 1;
         height: 25px;

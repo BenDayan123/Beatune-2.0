@@ -7,8 +7,10 @@ import { ImageInput } from "../Inputs/Image";
 import MessageError from "./message";
 import PulseLoading from "../Loading/pulse";
 import RippleButton from "../RippleButton";
+import { SignUpRoute, ISignUpForm } from "../../api/auth";
 import { AccountCircle, AlternateEmail, Https } from "@mui/icons-material";
 import Logo from "../../assests/icon.svg";
+import { useMutation } from "react-query";
 import "./style.scss";
 
 const SignUpPage: React.FC = () => {
@@ -18,21 +20,25 @@ const SignUpPage: React.FC = () => {
   const [profile, setProfile] = useState<File>(new File([""], "filename"));
   const [isDisable, setDisable] = useState(true);
 
+  const { dispatch, LogOut } = useAuth();
+
   const {
-    auth,
-    logout,
-    authState: { loading, error },
-  } = useAuth();
+    mutate: signUp,
+    isLoading,
+    error,
+    isError,
+  } = useMutation((userData: ISignUpForm) => SignUpRoute(userData), {
+    onSuccess: ({ access_token }) => {
+      dispatch(access_token);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    auth({ form, path: "/auth/user/signup" });
+    !isDisable && signUp(new FormData(e.currentTarget));
   };
 
-  useEffect(() => {
-    logout();
-  }, []);
+  useEffect(() => LogOut(), []);
 
   return (
     <div className="page-container-auth">
@@ -123,11 +129,11 @@ const SignUpPage: React.FC = () => {
               name="password"
             />
             <MessageError
-              message={error ? error.response?.data.message : ""}
-              show={!!error}
+              message={error && (error as any).response.data.message}
+              show={!!isError}
             />
             <RippleButton className="submit-btn" type="submit">
-              {loading ? <PulseLoading color="#ffffff" /> : "Create User"}
+              {isLoading ? <PulseLoading color="#ffffff" /> : "Create User"}
             </RippleButton>
           </form>
 

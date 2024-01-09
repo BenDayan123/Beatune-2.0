@@ -1,0 +1,39 @@
+@use "../styles/theme" as *;
+
+
+$themes: (
+    light: (
+       color:#101012
+    ),
+    dark: (
+        color: #ffff
+    ),
+);
+
+.close-button{
+    border-radius: 50%;
+    aspect-ratio: 1;
+    display: grid;
+    border: 2px solid transparent;
+    padding: 1em;
+    outline: none;
+    background: red;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 3em;
+    cursor: pointer;
+    transition: all 200ms;
+    &:active{
+        scale: .9;
+    }
+    @include themify($themes){
+        background: rgba(themed("color"), .2);
+        &:hover{
+            border-color: rgba(themed("color"), .7);
+        }
+        svg{
+            fill: themed("color");
+        }
+    }
+}

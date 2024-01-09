@@ -1,14 +1,18 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 import axios from "axios";
 import { Card, CardSlider } from "../../Card";
-import { ISong, IArtist, IUser, IPlaylist } from "../../../interfaces";
+import { ISong, IArtist, IUser, IPlaylist, IAlbum } from "../../../interfaces";
 import { ACTIONS, useMusicPlayer } from "../../../hooks/useMusicPlayer";
 import SpinnerLoading from "../../Loading/spinner";
 import { url } from "../../../utils/general";
+import ErrorPage from "../Error";
+import { ContextMenuWrapper } from "../../ContextMenu";
+import { TrackContextMenu } from "../Album/ContextMenu/track";
 
-type SearchTypes = "users" | "playlists" | "artists" | "songs";
+type SearchTypes = "users" | "playlists" | "artists" | "songs" | "albums";
 
 const Results: any = () => {
   const [, dispatch] = useMusicPlayer();
@@ -26,7 +30,7 @@ const Results: any = () => {
             limit: 10,
           },
         })
-        .then((res) => res.data),
+        .then((r) => r.data),
     {
       enabled: !!query,
       getNextPageParam: (_, pages) => pages.length ?? undefined,
@@ -36,61 +40,78 @@ const Results: any = () => {
   function renderCardsByType(type: SearchTypes, data: any[]) {
     switch (type) {
       case "artists":
-        return data.map((artist: IArtist, i) => {
-          const { profile, name, _id } = artist;
+        return data.map((artist: IArtist) => {
+          const { profile, name, _id, is_verified } = artist;
           return (
             <Card
-              imgUrl={profile || ""}
-              title={name + " ♪"}
-              key={i}
+              imgUrl={profile}
+              title={name}
+              key={_id}
+              is_verified={is_verified}
               round
+              playIcon={false}
               onClick={() => nav(`/app/home?id=${_id}`)}
             />
           );
         });
       case "songs":
-        return data.map((song: ISong, i) => {
-          const { small_image, title, artist_id } = song;
+        return data.map((song: ISong) => {
+          const { artist, title, album, _id } = song;
           return (
-            <Card
-              imgUrl={small_image || ""}
-              title={title}
-              description={"by " + artist_id.name}
-              key={i}
-              onClick={() => {
-                dispatch({
-                  type: ACTIONS.UPDATE,
-                  payload: {
-                    query: [song],
-                    index: 0,
-                  },
-                });
-              }}
-            />
+            <ContextMenuWrapper items={<TrackContextMenu track={song} />}>
+              <Card
+                imgUrl={album.small_image}
+                title={title}
+                description={"by " + artist.name}
+                key={_id}
+                onClick={() => {
+                  dispatch({
+                    type: ACTIONS.UPDATE,
+                    payload: {
+                      query: [song],
+                      index: 0,
+                    },
+                  });
+                }}
+              />
+            </ContextMenuWrapper>
           );
         });
       case "users":
-        return data.map((user: IUser, i) => {
-          const { profile, username } = user;
+        return data.map((user: IUser) => {
+          const { profile, username, _id } = user;
           return (
             <Card
               imgUrl={`${url}/media/${profile}`}
               title={username}
-              key={i}
+              key={_id}
               playIcon={false}
               round
             />
           );
         });
       case "playlists":
-        return data.map((playlist: IPlaylist, i) => {
-          const { name, description, image } = playlist;
+        return data.map((playlist: IPlaylist) => {
+          const { name, description, image, _id } = playlist;
           return (
             <Card
               imgUrl={`${url}/media/${image}`}
               title={name}
               description={description}
-              key={i}
+              key={_id}
+            />
+          );
+        });
+      case "albums":
+        return data.map((album: IAlbum) => {
+          const { name, total_tracks, image, _id } = album;
+          return (
+            <Card
+              imgUrl={image ?? ""}
+              title={name}
+              onClick={() => nav(`/app/album/${_id}`)}
+              description={`${total_tracks} Tracks`}
+              key={_id}
             />
           );
         });
@@ -100,6 +121,15 @@ const Results: any = () => {
   }
 
   if (isLoading) return <SpinnerLoading />;
+  if (!data?.pages[0])
+    return (
+      <ErrorPage
+        icon={SearchOffIcon}
+        title={`No results found for "${query}"`}
+        body="Please make sure your words are spelled correctly or use less or different keywords."
+      />
+    );
+
   return data?.pages.map((page) =>
     Object.entries(page).map(([type, dataChunk]: any, chunkIndex) => (
       <CardSlider title={filter ? "" : type} key={chunkIndex}>

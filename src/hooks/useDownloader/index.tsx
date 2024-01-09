@@ -4,6 +4,7 @@ import axios from "axios";
 import { generateUUID } from "../../utils/general";
 import { appLocalDataDir } from "@tauri-apps/api/path";
 import * as fs from "@tauri-apps/api/fs";
+import { ISong } from "../../interfaces";
 
 type Context = IDownloaderList;
 
@@ -16,12 +17,13 @@ export function useDownloaderList() {
 export const useDownload = () => {
   const [downloadsList, setDownloadsList] = useDownloaderList();
 
-  const download: IDownloadFunction = (url) => {
+  const download: IDownloadFunction = (track: ISong) => {
+    const url = `song/${track._id}/audio`;
     const key = generateUUID();
 
     setDownloadsList([
       ...downloadsList,
-      { key, percentage: 0, isInProgress: true },
+      { key, percentage: 0, isInProgress: true, name: "" },
     ]);
     axios
       .get(url, {
@@ -31,7 +33,11 @@ export const useDownload = () => {
             (progressEvent.loaded * 100) / progressEvent.total
           );
           setDownloadsList((prev) =>
-            prev.map((e) => (e.key == key ? { ...e, percentage: progress } : e))
+            prev.map((e) =>
+              e.key == key
+                ? { ...e, percentage: progress, name: track.title }
+                : e
+            )
           );
         },
       })
