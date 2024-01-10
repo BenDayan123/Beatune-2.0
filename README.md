@@ -4,15 +4,15 @@
 <p align="center">
 Built upon React and TauriJS, this Spotify-inspired application enables users to seamlessly search, listen to songs, and create playlists, get lyrics across major desktop platforms
 </p>
-# Music App Beatune 2.0
 
+# [App Website](https://beatune-website.vercel.app/)
 ## Supported
 * ```Cross-Desktop Application``` (Windows, Linux, MacOS)
 
 ## Prewiew Demo (Dark mode)
 <p align="center">
     <img 
-        src="https://i.ibb.co/zWg50mr/Screenshot-2.png" 
+        src="https://github.com/BenDayan123/Beatune-2.0/assets/57686485/cf8e3f1c-8cba-4219-8b7a-9d469dec57cb" 
         style="width:90%;"
     />
 </p>
@@ -35,4 +35,3 @@ Built upon React and TauriJS, this Spotify-inspired application enables users to
 * 🟦 Typescript
 ### <ins>Backend</ins> - [NestJS](https://nestjs.com/), 🔐 [Passport.JS](https://www.passportjs.org/)
 ### <ins>Database</ins> - [MongoDB](https://www.mongodb.com/)
-![alt text](https://cdn.discordapp.com/attachments/265582699320705025/1032279775219294268/unknown.png)
