@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Input } from "../Inputs/Input";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import { LoginRoute, ILoginForm } from "../../api/auth";
 import "./style.scss";
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState<string>("MotoMoto");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isDisable, setDisable] = useState(true);
   const { dispatch, LogOut } = useAuth();
@@ -37,76 +37,78 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="page-container-auth">
-      <div className="info">
-        <div className="logo-container">
-          <img className="logo" src={Logo} alt="" />
-          <h1 className="logo-name">Beatune 2.0</h1>
+    <Suspense>
+      <div className="page-container-auth">
+        <div className="info">
+          <div className="logo-container">
+            <img className="logo" src={Logo} alt="" />
+            <h1 className="logo-name">Beatune 2.0</h1>
+          </div>
+          <h1 id="title">Welcome Back</h1>
         </div>
-        <h1 id="title">Welcome Back</h1>
-      </div>
-      <div className="form-container">
-        <motion.div
-          initial={{ x: window.innerWidth, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{
-            type: "spring",
-            damping: 30,
-            duration: 0.5,
-            stiffness: 400,
-          }}
-          className="content"
-          exit={{ x: window.innerWidth, opacity: 0 }}
-        >
-          <form onSubmit={handleSubmit} autoComplete="off">
-            <h1>Login Page</h1>
-            <Input
-              labelText="Username"
-              icon={AccountCircle}
-              state={[username, setUsername]}
-              setDisable={setDisable}
-              type="text"
-              name="username"
-              validations={(name) => [
-                {
-                  check: name.length > 0,
-                  msg: `Require!`,
-                },
-              ]}
-            />
-            <Input
-              state={[password, setPassword]}
-              labelText="Passsword"
-              icon={Https}
-              type="password"
-              setDisable={setDisable}
-              validations={(password) => [
-                {
-                  check: password.length > 0,
-                  msg: `Require!`,
-                },
-              ]}
-              name="password"
-            />
-            <MessageError
-              message={error && (error as any).response.data.message}
-              show={!!isError}
-            />
-            <RippleButton
-              className="submit-btn"
-              type="submit"
-              disabled={isDisable}
-            >
-              {isLoading ? <PulseLoading color="#ffffff" /> : "Login Here"}
-            </RippleButton>
-          </form>
+        <div className="form-container">
+          <motion.div
+            initial={{ x: window.innerWidth, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{
+              type: "spring",
+              damping: 30,
+              duration: 0.5,
+              stiffness: 400,
+            }}
+            className="content"
+            exit={{ x: window.innerWidth, opacity: 0 }}
+          >
+            <form onSubmit={handleSubmit} autoComplete="off">
+              <h1>Login Page</h1>
+              <Input
+                labelText="Username"
+                icon={AccountCircle}
+                state={[username, setUsername]}
+                setDisable={setDisable}
+                type="text"
+                name="username"
+                validations={(name) => [
+                  {
+                    check: name.length > 0,
+                    msg: `Require!`,
+                  },
+                ]}
+              />
+              <Input
+                state={[password, setPassword]}
+                labelText="Passsword"
+                icon={Https}
+                type="password"
+                setDisable={setDisable}
+                validations={(password) => [
+                  {
+                    check: password.length > 0,
+                    msg: `Require!`,
+                  },
+                ]}
+                name="password"
+              />
+              <MessageError
+                message={error && (error as any).response.data.message}
+                show={!!isError}
+              />
+              <RippleButton
+                className="submit-btn"
+                type="submit"
+                disabled={isDisable}
+              >
+                {isLoading ? <PulseLoading color="#ffffff" /> : "Login Here"}
+              </RippleButton>
+            </form>
 
-          <p className="link">
-            Dont Have An Account? <Link to="/signup ">Sign Here</Link>
-          </p>
-        </motion.div>
+            <p className="link">
+              Dont Have An Account? <Link to="/signup ">Sign Here</Link>
+            </p>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 

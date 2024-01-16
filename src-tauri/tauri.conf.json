@@ -14,7 +14,7 @@
     "allowlist": {
       "all": true,
       "fs": {
-        "scope": ["$APPLOCALDATA/*","**"]
+        "scope": ["$APPLOCALDATA/*", "**"]
       }
     },
     "bundle": {
@@ -45,12 +45,18 @@
       "shortDescription": "",
       "targets": "all",
       "windows": {
+        "webviewInstallMode": {
+          "type": "offlineInstaller"
+        },
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "timestampUrl": "",
+        "wix": {
+          "language": "en-US"
+        }
       }
     },
-    "systemTray":{
+    "systemTray": {
       "iconPath": "icons/32x32.png",
       "title": "Beatune 2.0"
     },

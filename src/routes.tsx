@@ -5,6 +5,7 @@ import MainApp from "./components/App";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { NotificationProvider } from "./hooks/useNotifications";
+import SignUpPage from "./components/auth/signup";
 
 const AlbumPage = lazy(() => import("./components/Pages/Album"));
 const PlaylistPage = lazy(() => import("./components/Pages/Playlist"));
@@ -12,7 +13,6 @@ const PlaylistsPage = lazy(() => import("./components/Pages/Playlists"));
 const Queue = lazy(() => import("./components/Pages/Query"));
 const LyricsBox = lazy(() => import("./components/lyricsBox"));
 const SearchPage = lazy(() => import("./components/Pages/SearchResults"));
-const SignUpPage = lazy(() => import("./components/auth/signup"));
 const SettingsPage = lazy(() => import("./components/Pages/Settings"));
 
 const AppRoutes: React.FC = () => {
@@ -45,7 +45,7 @@ const AppRoutes: React.FC = () => {
       </Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
-      {/* <Route path="*" element={<h1>Doesn't Exists 404!</h1>} /> */}
+      <Route path="*" element={<h1>Doesn't Exists 404!</h1>} />
     </Routes>
   );
 };

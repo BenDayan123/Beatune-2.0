@@ -16,7 +16,7 @@ const navList: INav = [
     items: [
       {
         title: "Home",
-        path: "/app/album/658ebc171effabc0b6ffbe2a",
+        path: "/app/album/658ebc091effabc0b6ffaca2",
         icon: CottageTwoTone,
       },
       // { title: "Browse", path: "search", icon: ManageSearchTwoTone },

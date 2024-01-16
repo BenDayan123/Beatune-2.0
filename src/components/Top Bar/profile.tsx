@@ -14,7 +14,7 @@ const UserProfile: React.FC = () => {
         <div
           className="inner"
           style={{
-            backgroundImage: user ? `url(${url}/media/${user.profile})` : "",
+            backgroundImage: `url(${user?.profile})`,
           }}
         ></div>
       </div>

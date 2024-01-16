@@ -108,7 +108,7 @@ const AudioRef = () => {
   return (
     <audio
       ref={audio}
-      src={query[index]?._id && `${url}/song/${query[index]._id}/audio`}
+      src={query[index]?.url && query[index].url}
       // src={query[index] && `${url}/media/songs/${query[index]._id}.mp3`}
       // preload="auto"
       autoPlay

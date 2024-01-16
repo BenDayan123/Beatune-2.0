@@ -21,17 +21,6 @@ function App() {
   useEffect(() => {
     axios.defaults.baseURL = url;
   }, []);
-  // function handleContextMenu(e: MouseEvent) {
-  //   e.preventDefault();
-  //   return false;
-  // }
-  // document.addEventListener("contextmenu", handleContextMenu, {
-  //   capture: true,
-  // });
-  // return () =>
-  //   document.removeEventListener("contextmenu", handleContextMenu, {
-  //     capture: true,
-  //   });
 
   return (
     <QueryClientProvider client={queryClient}>
